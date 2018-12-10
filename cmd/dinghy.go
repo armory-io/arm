@@ -37,7 +37,10 @@ var renderCmd = &cobra.Command{
 			TemplateOrg:  "",
 		}
 
-		out := builder.Render("", "", file, nil)
+		out, err := builder.Render("", "", file, nil)
+		if err != nil {
+			log.Print(err)
+                }
 
 		fmt.Println(out.String())
 	},
