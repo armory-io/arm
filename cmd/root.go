@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/sirupsen/logrus"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -20,6 +21,8 @@ var (
 	currentVersion = "HEAD"
 	enableVersionCheck = "offbydefault"
 	UPGRADE_VERSION_ERROR=errors.New("there is a new version available")
+	LogLevel string
+	log *logrus.Logger
 )
 
 type VersionDesc struct {
@@ -34,9 +37,9 @@ var rootCmd = &cobra.Command{
 		if enableVersionCheck == ENABLE_FLAG {
 			if err, version := checkVersion(); err != nil {
 				if err == UPGRADE_VERSION_ERROR {
-					fmt.Printf(`WARNING: Client version is %s but a newer version (%s) is available. Please upgrade to the latest version!`, currentVersion, version)
+					log.Warn(`Client version is %s but a newer version (%s) is available. Please upgrade to the latest version!`, currentVersion, version)
 				} else {
-					fmt.Println("WARNING: There was a problem verifying the arm version number. Your client may be out of date.")
+					log.Warn("There was a problem verifying the arm version number. Your client may be out of date.")
 				}
 			}
 		}
@@ -72,7 +75,21 @@ func checkVersion() (error, string){
 
 }
 
+func initLog() *logrus.Logger {
+	log = logrus.New()
+	var level logrus.Level
+	level, err := logrus.ParseLevel(LogLevel)
+	if err != nil {
+		level = logrus.InfoLevel
+	}
+	log.SetLevel(level)
+
+	return log
+}
+
+
 func init() {
+	rootCmd.PersistentFlags().StringVarP(&LogLevel, "loglevel", "l", "info", "log level")
 	cobra.OnInitialize(initConfig)
 }
 
