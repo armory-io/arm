@@ -1,13 +1,12 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
 	"fmt"
-	"log"
-	"io/ioutil"
-	"github.com/armory-io/dinghy/pkg/dinghyfile"
-	"github.com/armory-io/dinghy/pkg/cache"
 	"github.com/armory-io/arm/pkg"
+	"github.com/armory/dinghy/pkg/cache"
+	"github.com/armory/dinghy/pkg/dinghyfile"
+	"github.com/armory/plank"
+	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
@@ -18,11 +17,11 @@ var dinghyCmd = &cobra.Command{
 }
 
 var renderCmd = &cobra.Command{
-	Use: "render [dinghyfile]",
+	Use:   "render [dinghyfile]",
 	Short: "render a dinghyfile",
 	Run: func(cmd *cobra.Command, args []string) {
-		log.SetOutput(ioutil.Discard)
-		fmt.Println(args)
+		log := initLog()
+		log.Debug("checking dinghyfile")
 
 		file := "dinghyfile"
 		if len(args) > 0 {
@@ -30,18 +29,24 @@ var renderCmd = &cobra.Command{
 		}
 
 		downloader := pkg.LocalDownloader{}
-		builder := dinghyfile.PipelineBuilder{
+		builder := &dinghyfile.PipelineBuilder{
 			Downloader:   downloader,
 			Depman:       cache.NewMemoryCache(),
 			TemplateRepo: viper.GetString("modules"),
 			TemplateOrg:  "",
+			Logger:       log.WithField("arm-cli-test", ""),
+			Client:       plank.New(),
+			EventClient:  &dinghyfile.EventsTestClient{},
+			Parser:       &dinghyfile.DinghyfileParser{},
 		}
+		builder.Parser.SetBuilder(builder)
 
-		out, err := builder.Render("", "", file, nil)
+		log.Debug("parsing dinghyfile")
+		out, err := builder.Parser.Parse("", "", file, "", nil)
 		if err != nil {
-			log.Print(err)
-                }
-
+			log.Error(err)
+		}
+		log.Info("Output:\n")
 		fmt.Println(out.String())
 	},
 }

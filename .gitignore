@@ -1,5 +1,7 @@
 arm
 arm_*_amd64
-vendor
 dinghyfile
 .idea
+.cover
+build
+coveragereport.txt

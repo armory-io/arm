@@ -1,0 +1,2 @@
+#!/bin/bash
+git ls-remote -q --tags | awk '{print $2}' | sort -Vr | head -n1 | sed 's/refs\/tags\///g'
