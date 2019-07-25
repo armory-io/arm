@@ -4,7 +4,7 @@ go 1.12
 
 require (
 	github.com/BurntSushi/toml v0.3.1 // indirect
-	github.com/armory/dinghy v1.0.0
+	github.com/armory/dinghy v1.0.1
 	github.com/armory/plank v1.2.2-0.20190722171433-afce6411ed97
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/magiconair/properties v1.8.0 // indirect
