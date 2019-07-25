@@ -1,4 +1,4 @@
-# github.com/armory/dinghy v1.0.0
+# github.com/armory/dinghy v1.0.1
 github.com/armory/dinghy/pkg/cache
 github.com/armory/dinghy/pkg/dinghyfile
 github.com/armory/dinghy/pkg/events
