@@ -12,6 +12,8 @@ ln -sf $PWD/arm /usr/local/bin/arm
 
 to use it just type arm into your console
 
+```bash
+$ arm
 The Armory Platform CLI
 
 Usage:
@@ -25,3 +27,4 @@ Flags:
   -h, --help   help for arm
 
 Use "arm [command] --help" for more information about a command.
+```
