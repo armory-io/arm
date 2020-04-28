@@ -18,7 +18,6 @@ package plank
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"math"
@@ -27,6 +26,14 @@ import (
 	"runtime"
 	"time"
 )
+
+type ErrUnsupportedStatusCode struct {
+	Code int
+}
+
+func (e *ErrUnsupportedStatusCode) Error() string {
+	return fmt.Sprintf("unsupported status code: %d", e.Code)
+}
 
 // Client for working with API servers that accept and return JSON payloads.
 type Client struct {
@@ -170,13 +177,24 @@ func (c *Client) Get(url string, dest interface{}) error {
 		}
 		return nil
 	}
-	return errors.New(fmt.Sprintf("Unsupported status code: %d", resp.StatusCode))
+	return &ErrUnsupportedStatusCode{Code: resp.StatusCode}
 }
 
 func (c *Client) GetWithRetry(url string, dest interface{}) error {
 	return c.RequestWithRetry(func() error {
 		return c.Get(url, dest)
 	})
+}
+
+// FailedResponse captures a 4xx/5xx response from the upstream Spinnaker service.
+// It is expected that the caller destructures the response according to the structure they expect.
+type FailedResponse struct {
+	Response   []byte
+	StatusCode int
+}
+
+func (e *FailedResponse) Error() string {
+	return fmt.Sprintf("%v: %s", e.StatusCode, string(e.Response))
 }
 
 // Post a JSON payload from the URL then decode it into the 'dest' arguement.
@@ -205,8 +223,8 @@ func (c *Client) Post(url string, contentType ContentType, body interface{}, des
 	}
 	defer resp.Body.Close()
 
+	b, err := ioutil.ReadAll(resp.Body)
 	if resp.StatusCode >= 200 && resp.StatusCode < 400 {
-		b, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			return err
 		}
@@ -220,8 +238,10 @@ func (c *Client) Post(url string, contentType ContentType, body interface{}, des
 			}
 			return nil
 		}
+	} else if resp.StatusCode >= 400 && resp.StatusCode < 600 {
+		return &FailedResponse{StatusCode: resp.StatusCode, Response: b}
 	}
-	return errors.New(fmt.Sprintf("Unsupported status code: %d", resp.StatusCode))
+	return &ErrUnsupportedStatusCode{Code: resp.StatusCode}
 }
 
 func (c *Client) PostWithRetry(url string, contentType ContentType, body interface{}, dest interface{}) error {
@@ -254,8 +274,8 @@ func (c *Client) Put(url string, contentType ContentType, body interface{}, dest
 	}
 	defer resp.Body.Close()
 
+	b, err := ioutil.ReadAll(resp.Body)
 	if resp.StatusCode >= 200 && resp.StatusCode < 400 {
-		b, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			return err
 		}
@@ -269,8 +289,11 @@ func (c *Client) Put(url string, contentType ContentType, body interface{}, dest
 			}
 			return nil
 		}
+	} else if resp.StatusCode >= 400 && resp.StatusCode < 600 {
+		return &FailedResponse{StatusCode: resp.StatusCode, Response: b}
 	}
-	return errors.New(fmt.Sprintf("Unsupported status code: %d", resp.StatusCode))
+
+	return &ErrUnsupportedStatusCode{Code: resp.StatusCode}
 }
 
 func (c *Client) PutWithRetry(url string, contentType ContentType, body interface{}, dest interface{}) error {
@@ -293,7 +316,7 @@ func (c *Client) Delete(url string) error {
 		// There is no support for receiving a payload back from a DELETE...
 		return nil
 	}
-	return errors.New(fmt.Sprintf("Unsupported status code: %d", resp.StatusCode))
+	return &ErrUnsupportedStatusCode{Code: resp.StatusCode}
 }
 
 func (c *Client) DeleteWithRetry(url string) error {
