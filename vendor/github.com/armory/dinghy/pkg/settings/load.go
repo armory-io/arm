@@ -18,12 +18,16 @@
 package settings
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
-	"github.com/armory/go-yaml-tools/pkg/secrets"
 	"io/ioutil"
 	"os"
+	"strconv"
 	"strings"
+
+	"github.com/armory/go-yaml-tools/pkg/secrets"
+	"github.com/armory/go-yaml-tools/pkg/tls/server"
 
 	"github.com/mitchellh/mapstructure"
 
@@ -33,7 +37,18 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+const (
+	// DefaultDinghyPort is the default port that Dinghy will listen on.
+	DefaultDinghyPort = 8081
+)
+
 func NewDefaultSettings() Settings {
+	dinghyPort, err := strconv.ParseUint(util.GetenvOrDefault("DINGHY_PORT", string(DefaultDinghyPort)), 10, 32)
+
+	if err != nil {
+		dinghyPort = DefaultDinghyPort
+	}
+
 	return Settings{
 		DinghyFilename:    "dinghyfile",
 		TemplateRepo:      "dinghy-templates",
@@ -67,11 +82,14 @@ func NewDefaultSettings() Settings {
 			},
 			Redis: Redis{
 				BaseURL:  util.GetenvOrDefault("REDIS_HOST", "redis:6379"),
-				Password: util.GetenvOrDefault("REDIS_PASSWORD", ""),
+				Password: util.GetenvOrDefaultRedact("REDIS_PASSWORD", ""),
 			},
 		},
 		ParserFormat: "json",
-		RepoConfig: []RepoConfig{},
+		RepoConfig:   []RepoConfig{},
+		Server: server.ServerConfig{
+			Port: uint32(dinghyPort),
+		},
 	}
 }
 
@@ -84,6 +102,9 @@ func LoadSettings() (*Settings, error) {
 	}
 	settings, err := configureSettings(NewDefaultSettings(), springConfig)
 	if err != nil {
+		return nil, err
+	}
+	if err = settings.Http.Init(); err != nil {
 		return nil, err
 	}
 	return settings, nil
@@ -146,7 +167,7 @@ func configureSettings(defaultSettings, overrides Settings) (*Settings, error) {
 		defaultSettings.ParserFormat = "json"
 	}
 
-	c, _ := json.Marshal(defaultSettings)
+	c, _ := json.Marshal(defaultSettings.Redacted())
 	log.Infof("The following settings have been loaded: %v", string(c))
 
 	return &defaultSettings, nil
@@ -184,27 +205,32 @@ func loadProfiles() (Settings, error) {
 		}
 	}
 
-	if err = decryptSecrets(&config); err != nil {
+	if err = decryptSecrets(context.TODO(), &config); err != nil {
 		log.Fatalf("failed to decrypt secrets: %s", err)
 	}
 
 	return config, nil
 }
 
-func decryptSecrets(config *Settings) error {
-	decrypter := secrets.NewDecrypter(config.GitHubToken)
+func decryptSecrets(ctx context.Context, config *Settings) error {
+	decrypter, err := secrets.NewDecrypter(ctx, config.GitHubToken)
+	if err != nil {
+		return err
+	}
 	secret, err := decrypter.Decrypt()
 	if err != nil {
 		return err
 	}
 	config.GitHubToken = secret
 
-	decrypter = secrets.NewDecrypter(config.StashToken)
+	decrypter, err = secrets.NewDecrypter(ctx, config.StashToken)
+	if err != nil {
+		return err
+	}
 	secret, err = decrypter.Decrypt()
 	if err != nil {
 		return err
 	}
 	config.StashToken = secret
-
 	return nil
 }

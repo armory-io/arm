@@ -65,10 +65,10 @@ func loadConfig(configFile string) map[interface{}]interface{} {
 //
 //Usage:
 //  If you want to load the following files:
-//    - spinnaker.yml
-//    - spinnaker-local.yml
-//    - gate-local.yml
-//    - gate-armory.yml
+//    - spinnaker.yml/yaml
+//    - spinnaker-local.yml/yaml
+//    - gate-local.yml/yaml
+//    - gate-armory.yml/yaml
 // Then For propNames you would give:
 //	  ["spinnaker", "gate"]
 // and you'll need to make sure your envKeyPairs has the following key pair as one of it's variables
@@ -132,10 +132,19 @@ func configDirectory() string {
 
 func loadProperties(propNames []string, confDir string, profiles []string, envMap map[string]string) (map[string]interface{}, error) {
 	propMaps := []map[interface{}]interface{}{}
-	//first load the main props, i.e. gate.yaml with no profile extensions
+	//first load the main props, i.e. gate.yml/yaml with no profile extensions
 	for _, prop := range propNames {
-		filePath := fmt.Sprintf("%s/%s.yml", confDir, prop)
-		propMaps = append(propMaps, loadConfig(filePath))
+		// yaml is "official"
+		filePath := fmt.Sprintf("%s/%s.yaml", confDir, prop)
+		config := loadConfig(filePath)
+
+		// but people also use "yml" too, if we don't get anything let's try this
+		if len(config) == 0 {
+			filePath = fmt.Sprintf("%s/%s.yml", confDir, prop)
+			config = loadConfig(filePath)
+		}
+
+		propMaps = append(propMaps, config)
 	}
 
 	for _, prop := range propNames {
@@ -151,3 +160,19 @@ func loadProperties(propNames []string, confDir string, profiles []string, envMa
 	m, err := yaml.Resolve(propMaps, envMap)
 	return m, err
 }
+
+// Bool is a helper routine that allocates a new bool value
+// to store v and returns a pointer to it.
+func Bool(v bool) *bool { return &v }
+
+// Int is a helper routine that allocates a new int value
+// to store v and returns a pointer to it.
+func Int(v int) *int { return &v }
+
+// Int64 is a helper routine that allocates a new int64 value
+// to store v and returns a pointer to it.
+func Int64(v int64) *int64 { return &v }
+
+// String is a helper routine that allocates a new string value
+// to store v and returns a pointer to it.
+func String(v string) *string { return &v }

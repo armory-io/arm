@@ -33,7 +33,7 @@ var renderCmd = &cobra.Command{
 			Downloader:   downloader,
 			Depman:       cache.NewMemoryCache(),
 			TemplateRepo: viper.GetString("modules"),
-			TemplateOrg:  "",
+			TemplateOrg:  "dummy-value",
 			Logger:       log.WithField("arm-cli-test", ""),
 			Client:       plank.New(),
 			EventClient:  &dinghyfile.EventsTestClient{},
@@ -52,6 +52,7 @@ var renderCmd = &cobra.Command{
 }
 
 func init() {
+	renderCmd.Flags().String("RawData", "", "optional RawData json in case is needed")
 	renderCmd.Flags().String("modules", "", "local path to the dinghy modules repository")
 	dinghyCmd.AddCommand(renderCmd)
 	rootCmd.AddCommand(dinghyCmd)
