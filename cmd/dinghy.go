@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/armory-io/arm/pkg"
 	"github.com/armory/dinghy/pkg/cache"
@@ -8,6 +9,8 @@ import (
 	"github.com/armory/plank"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"io/ioutil"
+	"path/filepath"
 )
 
 // dinghyCmd represents the dinghy command
@@ -20,8 +23,9 @@ var renderCmd = &cobra.Command{
 	Use:   "render [dinghyfile]",
 	Short: "render a dinghyfile",
 	Run: func(cmd *cobra.Command, args []string) {
+
 		log := initLog()
-		log.Debug("checking dinghyfile")
+		log.Debug("Checking dinghyfile")
 
 		file := "dinghyfile"
 		if len(args) > 0 {
@@ -30,29 +34,57 @@ var renderCmd = &cobra.Command{
 
 		downloader := pkg.LocalDownloader{}
 		builder := &dinghyfile.PipelineBuilder{
-			Downloader:   downloader,
-			Depman:       cache.NewMemoryCache(),
-			TemplateRepo: viper.GetString("modules"),
-			TemplateOrg:  "dummy-value",
-			Logger:       log.WithField("arm-cli-test", ""),
-			Client:       plank.New(),
-			EventClient:  &dinghyfile.EventsTestClient{},
-			Parser:       &dinghyfile.DinghyfileParser{},
+			Downloader:      downloader,
+			Depman:          cache.NewMemoryCache(),
+			TemplateRepo:    viper.GetString("modules"),
+			TemplateOrg:     "/",
+			Logger:          log.WithField("arm-cli-test", ""),
+			Client:          plank.New(),
+			EventClient:     &dinghyfile.EventsTestClient{},
+			Parser:          &dinghyfile.DinghyfileParser{},
+			DinghyfileName:  filepath.Base(file),
 		}
+
+		rawDataPath := viper.GetString("rawdata")
+		if rawDataPath != "" {
+			log.Debug("Reading rawdata file")
+			rawData, err := ioutil.ReadFile(rawDataPath)
+			if err != nil {
+				log.Error("Invalid rawdata json file path")
+			} else {
+				log.Debug("Parsing rawdata json")
+				rawPushData := make(map[string]interface{})
+				err = json.Unmarshal([]byte(rawData), &rawPushData)
+				if err != nil {
+					log.Error("Invalid rawData json file")
+				}
+				builder.PushRaw = rawPushData
+			}
+		}
+
+		log.Debug("Parsing dinghyfile")
+
 		builder.Parser.SetBuilder(builder)
 
-		log.Debug("parsing dinghyfile")
 		out, err := builder.Parser.Parse("", "", file, "", nil)
+
 		if err != nil {
-			log.Error(err)
+			log.Errorf("Parsing dinghyfile failed: %s", err )
+		} else {
+			log.Debug("Parsed dinghyfile")
+			log.Info("Output:\n")
+			fmt.Println(out.String())
+
+			log.Debug("Validating output json.")
+			if !json.Valid(out.Bytes()){
+				log.Fatal("The result is not a valid JSON object, please fix your dinghyfile")
+			}
 		}
-		log.Info("Output:\n")
-		fmt.Println(out.String())
 	},
 }
 
 func init() {
-	renderCmd.Flags().String("RawData", "", "optional RawData json in case is needed")
+	renderCmd.Flags().String("rawdata", "", "optional rawdata json in case is needed")
 	renderCmd.Flags().String("modules", "", "local path to the dinghy modules repository")
 	dinghyCmd.AddCommand(renderCmd)
 	rootCmd.AddCommand(dinghyCmd)
