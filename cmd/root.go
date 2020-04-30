@@ -37,7 +37,7 @@ var rootCmd = &cobra.Command{
 		if enableVersionCheck == ENABLE_FLAG {
 			if err, version := checkVersion(); err != nil {
 				if err == UPGRADE_VERSION_ERROR {
-					log.Warn(`Client version is %s but a newer version (%s) is available. Please upgrade to the latest version!`, currentVersion, version)
+					log.Warnf("Client version is %s but a newer version (%s) is available. Please upgrade to the latest version!", currentVersion, version)
 				} else {
 					log.Warn("There was a problem verifying the arm version number. Your client may be out of date.")
 				}

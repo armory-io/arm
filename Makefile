@@ -25,8 +25,8 @@ PROJECT_DIR_LINK=$(shell readlink ${PROJECT_DIR})
 
 # Setup the -ldflags option for go build here, interpolate the variable values
 # Go since 1.6 creates dynamically linked exes, here we force static and strip the result
-LINUX_LDFLAGS = -ldflags "-X ${PROJECT}/cmd.SEMVER=${TAG} -X ${PROJECT}/cmd.COMMIT=${COMMIT} -X ${PROJECT}/cmd.BRANCH=${BRANCH} -linkmode external -extldflags -static -s -w"
-LDFLAGS = -ldflags "-X ${PROJECT}/cmd.SEMVER=${TAG} -X ${PROJECT}/cmd.COMMIT=${COMMIT} -X ${PROJECT}/cmd.BRANCH=${BRANCH} -extldflags -s -w"
+# LINUX_LDFLAGS = -ldflags "-X ${PROJECT}/cmd.SEMVER=${TAG} -X ${PROJECT}/cmd.COMMIT=${COMMIT} -X ${PROJECT}/cmd.BRANCH=${BRANCH} -linkmode external -extldflags -static -s -w"
+# LDFLAGS = -ldflags "-X ${PROJECT}/cmd.SEMVER=${TAG} -X ${PROJECT}/cmd.COMMIT=${COMMIT} -X ${PROJECT}/cmd.BRANCH=${BRANCH} -extldflags -s -w"
 
 # Build the project
 all: clean lint vet build
@@ -35,13 +35,13 @@ run:
 	go run main.go
 
 windows:
-	GOOS=windows GOARCH=amd64 go build -i ${LDFLAGS} -o ${BUILD_DIR}/arm-${TAG}-windows-amd64.exe main.go
+	GOOS=windows GOARCH=amd64 go build -o ${BUILD_DIR}/arm-${TAG}-windows-amd64.exe main.go
 
 linux:
-	GOOS=linux GOARCH=amd64 go build -i ${LINUX_LDFLAGS} -o ${BUILD_DIR}/arm-${TAG}-linux-amd64 main.go
+	GOOS=linux GOARCH=amd64 go build -o ${BUILD_DIR}/arm-${TAG}-linux-amd64 main.go
 
 darwin:
-	GOOS=darwin GOARCH=amd64 go build -i ${LDFLAGS} -o ${BUILD_DIR}/arm-${TAG}-darwin-amd64 main.go
+	GOOS=darwin GOARCH=amd64 go build -o ${BUILD_DIR}/arm-${TAG}-darwin-amd64 main.go
 
 build: $(BUILD_DIR) windows linux darwin
 
@@ -79,6 +79,6 @@ next-version:
 	@echo $(DOCKER_NEXT_VERSION)
 
 release:
-	git checkout master;
+	git checkout master
 	git tag $(DOCKER_NEXT_VERSION)
 	git push --tags --force
