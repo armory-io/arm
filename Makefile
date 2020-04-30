@@ -79,6 +79,6 @@ next-version:
 	@echo $(DOCKER_NEXT_VERSION)
 
 release:
-	git checkout master;
+	git checkout master
 	git tag $(DOCKER_NEXT_VERSION)
 	git push --tags --force
