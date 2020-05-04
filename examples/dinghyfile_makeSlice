@@ -1,0 +1,22 @@
+{
+  "application": "makeSlice",
+  "pipelines": [
+    {
+      "name": "Loop Example",
+      "application": "makeSlice",
+      "stages": [
+        {{ $stages := makeSlice "First Wait" "Second Wait" }}
+        {{ range $stages }}
+          {{
+            module "stage.minimal.wait.module"
+            "waitname" .
+          }},
+        {{ end }}
+        {{
+          module "stage.minimal.wait.module"
+          "waitname" "Final Wait"
+        }}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "application": "global_vars",
+  "globals": {
+      "waitTime": "42",
+      "waitname": "default-name"
+  },
+  "pipelines": [
+    {
+      "application": "global_vars",
+      "name": "Made By Armory Pipeline Templates",
+      "stages": [
+        {{ module "stage.minimal.wait.module" }},
+        {{ module "stage.minimal.wait.module" "waitname" "overwrite-name" "waitTime" "100" }}
+      ]
+    }
+  ]
+}
