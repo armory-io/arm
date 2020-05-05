@@ -29,24 +29,24 @@ Flags:
 Use "arm [command] --help" for more information about a command.
 ```
 
-##Mac OS
+## Mac OS
 Since arm-cli is not signed you may receive a couple of messages regarding security. To execute the binaries you need to:
 
-1.- When you execute arm-cli on the console you may see this message.
+1. When you execute arm-cli on the console you may see this message.
 
 ![](docs/img/01_developer_verification.jpg)
 
-2.- Open Spotlight search in your Mac OS and search for Security & Privacy. 
+2. Open Spotlight search in your Mac OS and search for Security & Privacy. 
 
 ![](docs/img/02_open_privacy.jpg)
 
-3.- Once you opened this option go to General Tab and you will see on the bottom a button to "Allow Anyway" pointing at the bin, click on it.
+3. Once you opened this option go to General Tab and you will see on the bottom a button to "Allow Anyway" pointing at the bin, click on it.
  
 ![](docs/img/03_allow_anyway.jpg)
 
-4.- Once you click on it the button will dissapear.
+4. Once you click on it the button will dissapear.
 
-5.- Try to execute again the binary in your console and arm-cli should be working.
+5. Try to execute again the binary in your console and arm-cli should be working.
 
 ![](docs/img/05_working.jpg)
 
