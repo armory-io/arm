@@ -30,29 +30,46 @@ Use "arm [command] --help" for more information about a command.
 ```
 
 ## Sample Usage
-Both the Dinghyfile and module repo must be available locally
+Both the Dinghyfile and module repo must be available locally, there is an example folder build in.
 
-For example, if we have a dinghyfile at `/tmp/dinghyfile`, and a repo at `git@github.com:justinrlee/sales-pipelines-modules`, then you can do this:
+For example, if we use an example from the folder we can:
+
 
 ```bash
-# Clone the module repository
-$ git clone git@github.com/justinrlee/sales-pipelines-modules /tmp/sales-pipelines-modules
-
-# Both the /tmp/dinghyfile and /tmp/sales-pipelines-modules support either relative or absolute paths
-# The first item is the dinghyfile file we are rendering
-# The modules item should be a directory; in can be modules.  Modules can be in subdirectories; in this case, the modules should be referenced in the dinghyfile by their relative path within the module repository
-
-$ arm dinghy render /tmp/dinghyfile --modules /tmp/sales-pipelines-modules
-INFO[0000] Output:
+$ arm dinghy render ./examples/dinghyfile_globals --modules ./examples/modules --rawdata ./examples/RawData.json --output ./testing
+INFO[0000] Checking dinghyfile                          
+INFO[0000] Reading rawdata file                         
+INFO[0000] Parsing rawdata json                         
+INFO[0000] Parsing dinghyfile                           
+INFO[0000] Parsed dinghyfile                            
+INFO[0000] Validating output json.                      
+INFO[0000] Saving output file                           
+INFO[0000] Output:                                      
 {
-  "application": "multi-many",
+  "application": "global_vars",
+  "globals": {
+    "waitTime": "42",
+    "waitname": "default-name"
+  },
   "pipelines": [
-...
+    {
+      "application": "global_vars",
+      "name": "Made By Armory Pipeline Templates",
+      "stages": [
+        {
+          "name": "default-name",
+          "waitTime": "42",
+          "type": "wait"
+        },
+        {
+          "name": "overwrite-name",
+          "waitTime": "100",
+          "type": "wait"
+        }
+      ]
+    }
   ]
 }
 ```
 
-You can pipe this through jq to validate that it produces valid json:
-```bash
-arm dinghy render dinghyfile --modules test/modules | jq '.'
-```
+If final json file is valid you can see the mesage `Validation passed`, this means that the final JSON object is valid.

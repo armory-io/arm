@@ -1,0 +1,16 @@
+{
+    "application": "rawdata",
+    "pipelines": [
+      {
+        "application": "rawdata",
+        "name": "my-pipeline-name",
+        "stages": [
+          {
+            "name": "{{ .RawData.pusher.name }}",
+            "type": "wait",
+            "waitTIme": 10
+          }
+        ]
+      }
+    ]
+  }
