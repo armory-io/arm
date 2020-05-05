@@ -1,19 +1,17 @@
-# arm
+# Arm installation
 
 The Armory CLI
 
-To use this clone the project.
-Make sure to have go installed [https://golang.org/dl/](https://golang.org/dl/)
+To use this you can download the binaries fom the [release section](https://github.com/armory-io/arm/releases) and unzip the files depending on your OS.
 
-cd into the project and run `go build`
-
-Add the tool to your path by doing
+You can add the tool to your path by doing
 ln -sf $PWD/arm /usr/local/bin/arm  
 
-to use it just type arm into your console
+To use it just type arm in your console(if you added it to your path) or execute arm-cli directly.
+
 
 ```bash
-$ arm
+➜  arm-0.0.3-osx-amd64 ./arm-0.0.3-darwin-amd64
 The Armory Platform CLI
 
 Usage:
@@ -22,18 +20,40 @@ Usage:
 Available Commands:
   dinghy      Run dinghy subcommands
   help        Help about any command
+  version     Prints version information
 
 Flags:
-  -h, --help   help for arm
+  -h, --help              help for arm
+  -l, --loglevel string   log level (default "info")
 
 Use "arm [command] --help" for more information about a command.
 ```
+
+##Mac OS
+Since arm-cli is not signed you may receive a couple of messages regarding security. To execute the binaries you need to:
+
+1.- When you execute arm-cli on the console you may see this message.
+
+![](docs/img/01_developer_verification.jpg)
+
+2.- Open Spotlight search in your Mac OS and search for Security & Privacy. 
+
+![](docs/img/02_open_privacy.jpg)
+
+3.- Once you opened this option go to General Tab and you will see on the bottom a button to "Allow Anyway" pointing at the bin, click on it.
+ 
+![](docs/img/03_allow_anyway.jpg)
+
+4.- Once you click on it the button will dissapear.
+
+5.- Try to execute again the binary in your console and arm-cli should be working.
+
+![](docs/img/05_working.jpg)
 
 ## Sample Usage
 Both the Dinghyfile and module repo must be available locally, there is an example folder build in.
 
 For example, if we use an example from the folder we can:
-
 
 ```bash
 $ arm dinghy render ./examples/dinghyfile_globals --modules ./examples/modules --rawdata ./examples/RawData.json --output ./testing
@@ -72,4 +92,5 @@ INFO[0000] Output:
 }
 ```
 
-If final json file is valid you can see the mesage `Validation passed`, this means that the final JSON object is valid.
+If final json file is valid you can see the message `Validation passed`, this means that the final JSON object is valid.
+
