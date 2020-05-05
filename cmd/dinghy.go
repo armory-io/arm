@@ -28,9 +28,11 @@ var renderCmd = &cobra.Command{
 		log := initLog()
 		log.Info("Checking dinghyfile")
 
-		file := "dinghyfile"
+		var file string
 		if len(args) > 0 {
 			file = args[0]
+		} else {
+			log.Fatal("No dinghy file was entered, please refer to documentation or execute this command with --help")
 		}
 
 		downloader := pkg.LocalDownloader{}
@@ -75,15 +77,15 @@ var renderCmd = &cobra.Command{
 
 			log.Info("Parsed dinghyfile")
 			log.Info("Validating output json.")
-			success := true
+
 			if !json.Valid(out.Bytes()){
-				success = false
+				log.Error("Validation failed.")
+				log.Info("Output:\n")
+				fmt.Println(out.String())
 				log.Fatal("The result is not a valid JSON object, please fix your dinghyfile")
-
-			}
-			var outIndent bytes.Buffer
-			if success {
-
+			} else {
+				var outIndent bytes.Buffer
+				log.Info("Validation passed.")
 				outputPath := viper.GetString("output")
 				if outputPath != "" {
 					log.Info("Saving output file")
@@ -93,10 +95,10 @@ var renderCmd = &cobra.Command{
 						log.Error("Failed to save output file")
 					}
 				}
-			}
+				log.Info("Output:\n")
+				fmt.Println(outIndent.String())
 
-			log.Info("Output:\n")
-			fmt.Println(outIndent.String())
+			}
 		}
 	},
 }
