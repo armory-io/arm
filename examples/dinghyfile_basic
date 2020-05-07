@@ -1,4 +1,3 @@
-#Sample pipeline, this will not change
 {
   "application": "helloworldapp",
   "pipelines": [
