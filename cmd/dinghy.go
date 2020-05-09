@@ -92,7 +92,7 @@ func dinghyRender(args []string) string {
 	out, err := builder.Parser.Parse("", "", file, "", nil)
 
 	if err != nil {
-		log.Fatal("Parsing dinghyfile failed: %s", err )
+		log.Fatalf("Parsing dinghyfile failed: %s", err )
 	} else {
 
 		log.Info("Parsed dinghyfile")
