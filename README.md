@@ -65,13 +65,14 @@ Both the Dinghyfile and module repo must be available locally, there is an examp
 
 Example files:
 
-| Filename                | Module             | RawData            | Parameters                                                                                                   |
-|-------------------------|--------------------|--------------------|--------------------------------------------------------------------------------------------------------------|
-| dinghyfile_basic        | :x:                | :x:                | dinghy render ./examples/dinghyfile_basic                                                                    |
-| dinghyfile_conditionals | :x:                | :white_check_mark: | dinghy render ./examples/dinghyfile_conditionals --rawdata ./examples/RawData.json                           |
-| dinghyfile_globals      | :white_check_mark: | :x:                | dinghy render ./examples/dinghyfile_globals --modules ./examples/modules                                     |
-| dinghyfile_makeSlice    | :white_check_mark: | :white_check_mark: | dinghy render ./examples/dinghyfile_makeSlice --modules ./examples/modules --rawdata ./examples/RawData.json |
-| dinghyfile_rawdata      | :x:                | :white_check_mark: | dinghy render ./examples/dinghyfile_rawdata --rawdata ./examples/RawData.json                                |
+| Filename                                    | Module             | RawData            | Parameters                                                                                                                      |
+|---------------------------------------------|--------------------|--------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| dinghyfile_basic                            | :x:                | :x:                | dinghy render ./examples/dinghyfile_basic                                                                                       |
+| dinghyfile_rawdata                          | :x:                | :white_check_mark: | dinghy render ./examples/dinghyfile_rawdata --rawdata ./examples/RawData.json                                                   |
+| dinghyfile_conditionals                     | :x:                | :x:                | dinghy render ./examples/dinghyfile_conditionals                                                                                |
+| dinghyfile_globals                          | :white_check_mark: | :x:                | dinghy render ./examples/dinghyfile_globals --modules ./examples/modules                                                        |
+| dinghyfile_makeSlice                        | :white_check_mark: | :x:                | dinghy render ./examples/dinghyfile_makeSlice --modules ./examples/modules                                                      |
+| dinghyfile_makeSlice_conditional_rawdata    | :white_check_mark: | :white_check_mark: | dinghy render ./examples/dinghyfile_makeSlice_conditional_rawdata --modules ./examples/modules --rawdata ./examples/RawData.json|
 
 
 #### Example
