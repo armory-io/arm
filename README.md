@@ -1,4 +1,14 @@
-# Arm installation
+# Armocy CLI
+Armory CLI or better know as `arm cli` is a tool that let you render dinghyfiles offline. You need to specify the dinghyfiles, modules and rawdata depending of the content of the dinghyfile to be rendered.
+
+- [Armocy CLI](#armocy-cli)
+  - [Arm installation](#arm-installation)
+      - [Mac OS](#mac-os)
+  - [Usage](#usage)
+      - [Example](#example)
+
+
+## Arm installation
 
 The Armory CLI
 
@@ -11,7 +21,7 @@ To use it just type arm in your console(if you added it to your path) or execute
 
 
 ```bash
-➜  arm-0.0.3-osx-amd64 ./arm-0.0.3-darwin-amd64
+➜  arm-1.0.0-osx-amd64 ./arm-1.0.0-darwin-amd64
 The Armory Platform CLI
 
 Usage:
@@ -29,7 +39,7 @@ Flags:
 Use "arm [command] --help" for more information about a command.
 ```
 
-## Mac OS
+#### Mac OS
 Since arm-cli is not signed you may receive a couple of messages regarding security. To execute the binaries you need to:
 
 1. When you execute arm-cli on the console you may see this message.
@@ -50,21 +60,29 @@ Since arm-cli is not signed you may receive a couple of messages regarding secur
 
  <img src="docs/img/05_working.jpg" width="50%" />
 
-## Sample Usage
-Both the Dinghyfile and module repo must be available locally, there is an example folder build in.
+## Usage
+Both the Dinghyfile and module repo must be available locally, there is an example folder build in the release zip file. For each file the command would be a little different depending if they use modules(other templating files) or rawdata (git push information). You can execute `dinghy render --help` anytime to get current supported parameters.
 
-For example, if we use an example from the folder we can:
+Example files:
 
+| Filename                | Module             | RawData            | Parameters                                                                                                   |
+|-------------------------|--------------------|--------------------|--------------------------------------------------------------------------------------------------------------|
+| dinghyfile_basic        | :x:                | :x:                | dinghy render ./examples/dinghyfile_basic                                                                    |
+| dinghyfile_conditionals | :x:                | :white_check_mark: | dinghy render ./examples/dinghyfile_conditionals --rawdata ./examples/RawData.json                           |
+| dinghyfile_globals      | :white_check_mark: | :x:                | dinghy render ./examples/dinghyfile_globals --modules ./examples/modules                                     |
+| dinghyfile_makeSlice    | :white_check_mark: | :white_check_mark: | dinghy render ./examples/dinghyfile_makeSlice --modules ./examples/modules --rawdata ./examples/RawData.json |
+| dinghyfile_rawdata      | :x:                | :white_check_mark: | dinghy render ./examples/dinghyfile_rawdata --rawdata ./examples/RawData.json                                |
+
+
+#### Example
 ```bash
 $ arm dinghy render ./examples/dinghyfile_globals --modules ./examples/modules --rawdata ./examples/RawData.json --output ./testing
-INFO[0000] Checking dinghyfile                          
-INFO[0000] Reading rawdata file                         
-INFO[0000] Parsing rawdata json                         
-INFO[0000] Parsing dinghyfile                           
-INFO[0000] Parsed dinghyfile                            
-INFO[0000] Validating output json.                      
-INFO[0000] Saving output file                           
-INFO[0000] Output:                                      
+INFO[2020-05-08 15:49:29] Checking dinghyfile                          
+INFO[2020-05-08 15:49:29] Reading rawdata file                         
+INFO[2020-05-08 15:49:29] Parsing rawdata json                         
+INFO[2020-05-08 15:49:29] Parsing dinghyfile                           
+INFO[2020-05-08 15:49:29] Parsed dinghyfile                            
+INFO[2020-05-08 15:49:29] Output:                                      
 {
   "application": "global_vars",
   "globals": {
@@ -90,7 +108,8 @@ INFO[0000] Output:
     }
   ]
 }
+INFO[2020-05-08 15:49:29] Final dinghyfile is a valid JSON Object. 
 ```
 
-If final json file is valid you can see the message `Validation passed`, this means that the final JSON object is valid.
+If final json file is valid you can see the message `Final dinghyfile is a valid JSON Object.`, this means that the final JSON object is valid.
 

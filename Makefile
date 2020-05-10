@@ -2,8 +2,6 @@ VET_REPORT = vet.report
 TEST_REPORT = tests.xml
 GOARCH = amd64
 
-RELEASE_TYPE ?= patch
-
 CURRENT_VERSION := $(shell bin/current-version)
 
 ifndef CURRENT_VERSION
@@ -11,7 +9,9 @@ ifndef CURRENT_VERSION
 endif
 
 NEXT_VERSION := $(shell semver -c -i $(RELEASE_TYPE) $(CURRENT_VERSION))
-DOCKER_NEXT_VERSION := $(shell docker run --rm alpine/semver semver -c -i $(RELEASE_TYPE) $(CURRENT_VERSION))
+DOCKER_NEXT_VERSION_PATCH := $(shell docker run --rm alpine/semver semver -c -i patch $(CURRENT_VERSION))
+DOCKER_NEXT_VERSION_MINOR := $(shell docker run --rm alpine/semver semver -c -i minor $(CURRENT_VERSION))
+DOCKER_NEXT_VERSION_MAJOR := $(shell docker run --rm alpine/semver semver -c -i major $(CURRENT_VERSION))
 
 PROJECT = github.com/armory-io/arm
 TAG=$(NEXT_VERSION)
@@ -75,10 +75,26 @@ clean:
 current-version:
 	@echo $(CURRENT_VERSION)
 
-next-version:
-	@echo $(DOCKER_NEXT_VERSION)
+next-version-patch:
+	@echo $(DOCKER_NEXT_VERSION_PATCH)
 
-release:
+next-version-minor:
+	@echo $(DOCKER_NEXT_VERSION_MINOR)
+
+next-version-major:
+	@echo $(DOCKER_NEXT_VERSION_MAJOR)
+
+release-patch:
 	git checkout master
-	git tag $(DOCKER_NEXT_VERSION)
+	git tag $(DOCKER_NEXT_VERSION_PATCH)
+	git push --tags --force
+
+release-major:
+	git checkout master
+	git tag $(DOCKER_NEXT_VERSION_MINOR)
+	git push --tags --force
+
+release-minor:
+	git checkout master
+	git tag $(DOCKER_NEXT_VERSION_MAJOR)
 	git push --tags --force

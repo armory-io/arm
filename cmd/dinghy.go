@@ -92,26 +92,24 @@ func dinghyRender(args []string) string {
 	out, err := builder.Parser.Parse("", "", file, "", nil)
 
 	if err != nil {
-		log.Errorf("Parsing dinghyfile failed: %s", err )
+		log.Fatalf("Parsing dinghyfile failed: %s", err )
 	} else {
 
 		log.Info("Parsed dinghyfile")
-		log.Info("Validating output json.")
 
 		if !json.Valid(out.Bytes()){
-			log.Error("Validation failed.")
 			log.Info("Output:\n")
 			fmt.Println(out.String())
-			log.Fatal("The result is not a valid JSON object, please fix your dinghyfile")
+			log.Fatal("The result is not a valid JSON Object, please fix your dinghyfile")
 		} else {
 			var outIndent bytes.Buffer
-			log.Info("Validation passed.")
 			json.Indent(&outIndent, out.Bytes(), "", "  ")
 			//Save file if output exists
 			saveOutputFile(viper.GetString("output"), outIndent)
 			//Log output
 			log.Info("Output:\n")
 			fmt.Println(outIndent.String())
+			log.Info("Final dinghyfile is a valid JSON Object.")
 			return outIndent.String()
 		}
 	}
