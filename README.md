@@ -1,4 +1,4 @@
-# Armocy CLI
+# Armory CLI
 Armory CLI or better know as `arm cli` is a tool that let you render dinghyfiles offline. You need to specify the dinghyfiles, modules and rawdata depending of the content of the dinghyfile to be rendered.
 
 - [Armocy CLI](#armocy-cli)
