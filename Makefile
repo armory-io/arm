@@ -91,10 +91,10 @@ release-patch:
 
 release-major:
 	git checkout master
-	git tag $(DOCKER_NEXT_VERSION_MINOR)
+	git tag $(DOCKER_NEXT_VERSION_MAJOR)
 	git push --tags --force
 
 release-minor:
 	git checkout master
-	git tag $(DOCKER_NEXT_VERSION_MAJOR)
+	git tag $(DOCKER_NEXT_VERSION_MINOR)
 	git push --tags --force
