@@ -14,8 +14,17 @@ The Armory CLI
 
 To use this you can download the binaries fom the [release section](https://github.com/armory-io/arm/releases) and unzip the files depending on your OS.
 
-You can add the tool to your path by doing
+You can add the tool to your path by doing:
+
+```bash
 ln -sf $PWD/arm /usr/local/bin/arm  
+```
+
+For Arch Linux based distributions it is available on the [AUR](https://aur.archlinux.org/packages/arm). Using your AUR helper of choice such as [yay](https://github.com/Jguer/yay).
+
+```bash
+yay -S arm
+```
 
 To use it just type arm in your console(if you added it to your path) or execute arm-cli directly.
 
