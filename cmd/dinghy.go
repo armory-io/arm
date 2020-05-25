@@ -97,7 +97,7 @@ func dinghyRender(args []string) string {
 	}
 	repoFolder := fmt.Sprint(filepath.Dir(absFile))
 	fileName := fmt.Sprint(filepath.Base(absFile))
-	out, err := builder.Parser.Parse( "", repoFolder, fileName, "", nil)
+	out, err := builder.Parser.Parse( "templateOrg", repoFolder, fileName, "", nil)
 
 	if err != nil {
 		log.Fatalf("Parsing dinghyfile failed: %s", err )
