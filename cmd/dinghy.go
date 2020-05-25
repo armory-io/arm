@@ -7,7 +7,9 @@ import (
 	"github.com/armory-io/arm/pkg"
 	"github.com/armory/dinghy/pkg/cache"
 	"github.com/armory/dinghy/pkg/dinghyfile"
-	"github.com/armory/plank"
+	//"github.com/armory/plank"
+
+	//"github.com/armory/plank"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"io/ioutil"
@@ -76,7 +78,7 @@ func dinghyRender(args []string) string {
 		TemplateRepo:    viper.GetString("modules"),
 		TemplateOrg:     "templateOrg",
 		Logger:          log.WithField("arm-cli-test", ""),
-		Client:          plank.New(),
+		Client:          nil,
 		EventClient:     &dinghyfile.EventsTestClient{},
 		Parser:          &dinghyfile.DinghyfileParser{},
 		DinghyfileName:  filepath.Base(file),
@@ -89,7 +91,8 @@ func dinghyRender(args []string) string {
 
 	builder.Parser.SetBuilder(builder)
 
-	out, err := builder.Parser.Parse("", "", file, "", nil)
+	currentDir := fmt.Sprint(filepath.Dir(file))
+	out, err := builder.Parser.Parse( "", currentDir, file, "", nil)
 
 	if err != nil {
 		log.Fatalf("Parsing dinghyfile failed: %s", err )

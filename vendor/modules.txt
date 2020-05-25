@@ -10,7 +10,7 @@ cloud.google.com/go/internal/version
 cloud.google.com/go/storage
 # github.com/BurntSushi/toml v0.3.1
 github.com/BurntSushi/toml
-# github.com/armory/dinghy v1.0.2-0.20200424215426-34434ed797d0
+# github.com/armory/dinghy v1.0.2-0.20200525174719-157aa31e2f22
 github.com/armory/dinghy/pkg/cache
 github.com/armory/dinghy/pkg/dinghyfile
 github.com/armory/dinghy/pkg/events
@@ -27,8 +27,8 @@ github.com/armory/go-yaml-tools/pkg/tls
 github.com/armory/go-yaml-tools/pkg/tls/client
 github.com/armory/go-yaml-tools/pkg/tls/server
 github.com/armory/go-yaml-tools/pkg/yaml
-# github.com/armory/plank v1.3.0
-github.com/armory/plank
+# github.com/armory/plank/v3 v3.0.0
+github.com/armory/plank/v3
 # github.com/aws/aws-sdk-go v1.30.15
 github.com/aws/aws-sdk-go/aws
 github.com/aws/aws-sdk-go/aws/arn
@@ -230,7 +230,7 @@ golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
 # golang.org/x/time v0.0.0-20200416051211-89c76fbcd5d1
 golang.org/x/time/rate
-# golang.org/x/tools v0.0.0-20200427214658-4697a2867c88
+# golang.org/x/tools v0.0.0-20200428211428-0c9eba77bc32
 golang.org/x/tools/cmd/goimports
 golang.org/x/tools/go/analysis
 golang.org/x/tools/go/analysis/passes/inspect
