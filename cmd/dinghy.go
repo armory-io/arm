@@ -10,6 +10,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 )
 
@@ -65,7 +66,8 @@ func dinghyRender(args []string) string {
 	if len(args) > 0 {
 		file = args[0]
 	} else {
-		log.Fatal("No dinghy file was entered, please refer to documentation or execute this command with --help")
+		log.Error("No dinghy file was entered, please refer to documentation or execute this command with --help")
+		os.Exit(1)
 	}
 
 	downloader := pkg.LocalDownloader{}
@@ -91,14 +93,16 @@ func dinghyRender(args []string) string {
 
 	absFile, err := filepath.Abs(file)
 	if err != nil {
-		log.Fatalf("Invalid path for dinghyfile: %v", err)
+		log.Errorf("Invalid path for dinghyfile: %v", err)
+		os.Exit(1)
 	}
 	repoFolder := fmt.Sprint(filepath.Dir(absFile))
 	fileName := fmt.Sprint(filepath.Base(absFile))
 	out, err := builder.Parser.Parse( "templateOrg", repoFolder, fileName, "", nil)
 
 	if err != nil {
-		log.Fatalf("Parsing dinghyfile failed: %s", err )
+		log.Errorf("Parsing dinghyfile failed: %s", err )
+		os.Exit(1)
 	} else {
 
 		log.Info("Parsed dinghyfile")
@@ -106,17 +110,20 @@ func dinghyRender(args []string) string {
 		if !json.Valid(out.Bytes()){
 			log.Info("Output:\n")
 			fmt.Println(out.String())
-			log.Fatal("The result is not a valid JSON Object, please fix your dinghyfile")
+			log.Error("The result is not a valid JSON Object, please fix your dinghyfile")
+			os.Exit(1)
 		} else {
 			log.Info("Parsing final dinghyfile to struct for validation")
 			d, err := dinghyfileStruct(builder, out)
 			if err != nil {
-				log.Fatalf("Parsing to struct failed: %v", err)
+				log.Errorf("Parsing to struct failed: %v", err)
+				os.Exit(1)
 			}
 
 			errValidation := builder.ValidatePipelines(d, out.Bytes())
 			if errValidation != nil {
-				log.Fatal("Final Dinghyfile failed validations, please correct them and retry")
+				log.Error("Final Dinghyfile failed validations, please correct them and retry")
+				os.Exit(1)
 			}
 
 			//Save file if output exists
