@@ -91,8 +91,13 @@ func dinghyRender(args []string) string {
 
 	builder.Parser.SetBuilder(builder)
 
-	currentDir := fmt.Sprint(filepath.Dir(file))
-	out, err := builder.Parser.Parse( "", currentDir, file, "", nil)
+	absFile, err := filepath.Abs(file)
+	if err != nil {
+		log.Fatal("Invalid path for dinghyfile: %v", err)
+	}
+	repoFolder := fmt.Sprint(filepath.Dir(absFile))
+	fileName := fmt.Sprint(filepath.Base(absFile))
+	out, err := builder.Parser.Parse( "", repoFolder, fileName, "", nil)
 
 	if err != nil {
 		log.Fatalf("Parsing dinghyfile failed: %s", err )
