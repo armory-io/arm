@@ -91,7 +91,7 @@ func dinghyRender(args []string) string {
 
 	absFile, err := filepath.Abs(file)
 	if err != nil {
-		log.Fatal("Invalid path for dinghyfile: %v", err)
+		log.Fatalf("Invalid path for dinghyfile: %v", err)
 	}
 	repoFolder := fmt.Sprint(filepath.Dir(absFile))
 	fileName := fmt.Sprint(filepath.Base(absFile))
