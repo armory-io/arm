@@ -82,6 +82,7 @@ func dinghyRender(args []string) string {
 		EventClient:     &dinghyfile.EventsTestClient{},
 		Parser:          &dinghyfile.DinghyfileParser{},
 		DinghyfileName:  filepath.Base(file),
+		Ums:             []dinghyfile.Unmarshaller{&dinghyfile.DinghyJsonUnmarshaller{}},
 	}
 
 	//Process rawData and add it to the builder
@@ -110,18 +111,46 @@ func dinghyRender(args []string) string {
 			fmt.Println(out.String())
 			log.Fatal("The result is not a valid JSON Object, please fix your dinghyfile")
 		} else {
+			log.Info("Parsing final dinghyfile to struct for validation")
+			d, err := dinghyfileStruct(builder, out)
+			if err != nil {
+				log.Fatalf("Parsing to struct failed: %v", err)
+			}
+
+			errValidation := builder.ValidatePipelines(d, out.Bytes())
+			if errValidation != nil {
+				log.Fatal("Final Dinghyfile failed validations, please correct them and retry")
+			}
+
+			//Save file if output exists
+			//Log output
 			var outIndent bytes.Buffer
 			json.Indent(&outIndent, out.Bytes(), "", "  ")
-			//Save file if output exists
 			saveOutputFile(viper.GetString("output"), outIndent)
-			//Log output
 			log.Info("Output:\n")
 			fmt.Println(outIndent.String())
 			log.Info("Final dinghyfile is a valid JSON Object.")
+
 			return outIndent.String()
 		}
 	}
 	return out.String()
+}
+
+func dinghyfileStruct(builder *dinghyfile.PipelineBuilder, out *bytes.Buffer) (dinghyfile.Dinghyfile, error) {
+	d := dinghyfile.NewDinghyfile()
+	parseErrs := 0
+	var err error
+	for _, ums := range builder.Ums {
+		log.Info("Parsing Dinghyfile to struct for validation")
+		if errmarshal := ums.Unmarshal(out.Bytes(), &d); errmarshal != nil {
+			err = errmarshal
+			log.Warnf("Cannot create Dinghyfile struct because of malformed syntax: %s", err.Error())
+			parseErrs++
+			continue
+		}
+	}
+	return d, err
 }
 
 func saveOutputFile(outputPath string, content bytes.Buffer) {
@@ -133,3 +162,4 @@ func saveOutputFile(outputPath string, content bytes.Buffer) {
 		}
 	}
 }
+
