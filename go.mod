@@ -4,8 +4,7 @@ go 1.12
 
 require (
 	cloud.google.com/go v0.56.0 // indirect
-	github.com/armory/dinghy v1.0.2-0.20200525174719-157aa31e2f22
-	github.com/armory/plank v1.3.0 // indirect
+	github.com/armory/dinghy v1.0.2-0.20200526163818-27358cc58116
 	github.com/aws/aws-sdk-go v1.30.15 // indirect
 	github.com/frankban/quicktest v1.7.2 // indirect
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
