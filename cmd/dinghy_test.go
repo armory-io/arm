@@ -136,7 +136,6 @@ func Test_dinghyRender(t *testing.T) {
 			`{
   "application": "localmodules",
   "globals": {
-      "dinghylocalmodule" : true,
       "waitTime": "42",
       "waitname": "localmodule default-name"
   },
