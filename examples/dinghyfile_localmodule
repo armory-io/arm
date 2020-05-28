@@ -1,7 +1,6 @@
 {
   "application": "localmodules",
   "globals": {
-      "dinghylocalmodule" : true,
       "waitTime": "42",
       "waitname": "localmodule default-name"
   },
@@ -10,8 +9,9 @@
       "application": "localmodules",
       "name": "Made By Armory Pipeline Templates",
       "stages": [
-        {{ module "/local_modules/stage.minimal.wait.localmodule" }},
-        {{ module "/local_modules/stage.minimal.wait.localmodule" "waitname" "localmodule overwrite-name" "waitTime" "100" }}
+        {{ local_module "/local_modules/stage.minimal.wait.localmodule" }},
+        {{ local_module "/local_modules/stage.minimal.wait.localmodule" "waitname" "localmodule overwrite-name" "waitTime" "100" }},
+        {{ module "stage.minimal.wait.module" "waitname" "global module overwrite-name" "waitTime" "100" }}
       ]
     }
   ]

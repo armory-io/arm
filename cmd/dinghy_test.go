@@ -136,9 +136,8 @@ func Test_dinghyRender(t *testing.T) {
 			`{
   "application": "localmodules",
   "globals": {
-      "dinghylocalmodule" : true,
-      "waitTime": "42",
-      "waitname": "localmodule default-name"
+    "waitTime": "42",
+    "waitname": "localmodule default-name"
   },
   "pipelines": [
     {
@@ -146,15 +145,20 @@ func Test_dinghyRender(t *testing.T) {
       "name": "Made By Armory Pipeline Templates",
       "stages": [
         {
-  "name": "localmodule default-name",
-  "waitTime":  "42",
-  "type": "wait"
-},
+          "name": "localmodule default-name",
+          "waitTime": "42",
+          "type": "wait"
+        },
         {
-  "name": "localmodule overwrite-name",
-  "waitTime":  "100",
-  "type": "wait"
-}
+          "name": "localmodule overwrite-name",
+          "waitTime": "100",
+          "type": "wait"
+        },
+        {
+          "name": "global module overwrite-name",
+          "waitTime": "100",
+          "type": "wait"
+        }
       ]
     }
   ]
@@ -169,7 +173,10 @@ func Test_dinghyRender(t *testing.T) {
 				viper.Set(keyViper, tt.viper[keyViper])
 			}
 
-			got := dinghyRender(tt.args.args)
+			got, err := dinghyRender(tt.args.args)
+			if err != nil {
+				t.Fail()
+			}
 			if got != "" {
 				var gotBuffer bytes.Buffer
 				var wantBuffer bytes.Buffer
