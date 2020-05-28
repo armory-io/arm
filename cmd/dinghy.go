@@ -3,6 +3,7 @@ package cmd
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/armory-io/arm/pkg"
 	"github.com/armory/dinghy/pkg/cache"
@@ -24,7 +25,10 @@ var renderCmd = &cobra.Command{
 	Use:   "render [dinghyfile]",
 	Short: "render a dinghyfile",
 	Run:   func(cmd *cobra.Command, args []string) {
-		dinghyRender(args)
+		_, err := dinghyRender(args)
+		if err != nil {
+			os.Exit(1)
+		}
 	},
 }
 
@@ -57,7 +61,7 @@ func init() {
 }
 
 
-func dinghyRender(args []string) string {
+func dinghyRender(args []string) (string, error) {
 
 	log := initLog()
 	log.Info("Checking dinghyfile")
@@ -94,7 +98,7 @@ func dinghyRender(args []string) string {
 	absFile, err := filepath.Abs(file)
 	if err != nil {
 		log.Errorf("Invalid path for dinghyfile: %v", err)
-		os.Exit(1)
+		return "", fmt.Errorf("Invalid path for dinghyfile: %v", err)
 	}
 	repoFolder := fmt.Sprint(filepath.Dir(absFile))
 	fileName := fmt.Sprint(filepath.Base(absFile))
@@ -102,7 +106,7 @@ func dinghyRender(args []string) string {
 
 	if err != nil {
 		log.Errorf("Parsing dinghyfile failed: %s", err )
-		os.Exit(1)
+		return "", fmt.Errorf("Parsing dinghyfile failed: %s", err )
 	} else {
 
 		log.Info("Parsed dinghyfile")
@@ -111,19 +115,19 @@ func dinghyRender(args []string) string {
 			log.Info("Output:\n")
 			fmt.Println(out.String())
 			log.Error("The result is not a valid JSON Object, please fix your dinghyfile")
-			os.Exit(1)
+			return "", errors.New(("The result is not a valid JSON Object, please fix your dinghyfile"))
 		} else {
 			log.Info("Parsing final dinghyfile to struct for validation")
 			d, err := dinghyfileStruct(builder, out)
 			if err != nil {
 				log.Errorf("Parsing to struct failed: %v", err)
-				os.Exit(1)
+				return "", fmt.Errorf("Parsing to struct failed: %v", err)
 			}
 
 			errValidation := builder.ValidatePipelines(d, out.Bytes())
 			if errValidation != nil {
 				log.Error("Final Dinghyfile failed validations, please correct them and retry")
-				os.Exit(1)
+				return "", errors.New("Final Dinghyfile failed validations, please correct them and retry")
 			}
 
 			//Save file if output exists
@@ -135,10 +139,9 @@ func dinghyRender(args []string) string {
 			fmt.Println(outIndent.String())
 			log.Info("Final dinghyfile is a valid JSON Object.")
 
-			return outIndent.String()
+			return outIndent.String(), nil
 		}
 	}
-	return out.String()
 }
 
 func dinghyfileStruct(builder *dinghyfile.PipelineBuilder, out *bytes.Buffer) (dinghyfile.Dinghyfile, error) {
