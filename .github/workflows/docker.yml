@@ -62,6 +62,15 @@ jobs:
           ./gradlew final docker dockerPush $GRADLE_ARGS
           echo "::set-env name=BUILD_NUMBER::$(./gradlew -Prelease.useLastTag=true $GRADLE_ARGS  printVersion|grep VERSION|awk -F: '{print $2}')"
 
+      - name: Run Security Scan
+        uses: armory-io/aquasec-scan-action@v0.0.8
+        with:
+          username: ${{ secrets.AQUA_USER }}
+          password: ${{ secrets.AQUA_PASSWORD }}
+          url: https://aquasec.armory.io
+          image: armory/${{ env.BASE_PROJECT }}:${{ env.BUILD_NUMBER }}
+          registry: Artifactory
+
       - name: Login to Docker Hub
         if: startsWith(github.ref, 'refs/heads/release-')
         run: docker login -u ${{ secrets.DOCKER_HUB_USER }} -p '${{ secrets.DOCKER_HUB_PASS }}'
@@ -75,11 +84,3 @@ jobs:
           echo "Pushing image..."
           docker push armory/$BASE_PROJECT:$RELEASE
 
-      - name: Run Security Scan
-        uses: armory-io/aquasec-scan-action@v0.0.8
-        with:
-          username: ${{ secrets.AQUA_USER }}
-          password: ${{ secrets.AQUA_PASSWORD }}
-          url: https://aquasec.armory.io
-          image: armory/${{ env.BASE_PROJECT }}:${{ env.BUILD_NUMBER }}
-          registry: Artifactory
