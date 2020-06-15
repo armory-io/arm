@@ -1,12 +1,38 @@
 # Armory CLI
 Armory CLI or better know as `arm cli` is a tool that let you render dinghyfiles offline. You need to specify the dinghyfiles, modules and rawdata depending of the content of the dinghyfile to be rendered.
 
-- [Armocy CLI](#armocy-cli)
+- [Armory CLI](#armory-cli)
+  - [Docker Image](#docker-image)
   - [Arm installation](#arm-installation)
       - [Mac OS](#mac-os)
   - [Usage](#usage)
       - [Example](#example)
 
+## Docker Image
+
+There's a docker image for arm-cli, you can find it in [Docker Hub](https://hub.docker.com/r/armory/arm-cli). In order to use it you can:
+```
+docker run --name arm-cli -it docker.io/armory/arm-cli /bin/sh
+```
+And then in shell you can just execute ``arm`` command.
+```
+/ # arm
+The Armory Platform CLI
+
+Usage:
+  arm [command]
+
+Available Commands:
+  dinghy      Run dinghy subcommands
+  help        Help about any command
+  version     Prints version information
+
+Flags:
+  -h, --help              help for arm
+  -l, --loglevel string   log level (default "info")
+
+Use "arm [command] --help" for more information about a command.
+```
 
 ## Arm installation
 
