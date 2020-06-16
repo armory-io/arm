@@ -21,5 +21,4 @@ FROM alpine
 WORKDIR /home/spinnaker
 COPY --from=builder /workspace/arm /bin/arm
 COPY --from=builder /workspace/examples ./examples
-COPY --from=builder /workspace/README.md .
-COPY --from=builder /workspace/arm .
+COPY --from=builder /workspace/README.md /workspace/arm ./
