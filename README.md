@@ -12,7 +12,7 @@ Armory CLI or better know as `arm cli` is a tool that let you render dinghyfiles
 
 There's a docker image for arm-cli, you can find it in [Docker Hub](https://hub.docker.com/r/armory/arm-cli). In order to use it you can:
 ```
-docker run --name arm-cli -it docker.io/armory/arm-cli /bin/sh
+docker run -it docker.io/armory/arm-cli /bin/sh
 ```
 And then in shell you can just execute ``arm`` command.
 ```

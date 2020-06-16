@@ -17,6 +17,9 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -o arm main.go
 
 # Use distroless as minimal base image to package the manager binary
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
-FROM golang:1.13-alpine
-WORKDIR /
+FROM alpine
+WORKDIR /home/spinnaker
 COPY --from=builder /workspace/arm /bin/arm
+COPY --from=builder /workspace/examples ./examples
+COPY --from=builder /workspace/README.md .
+COPY --from=builder /workspace/arm .
