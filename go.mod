@@ -4,8 +4,7 @@ go 1.12
 
 require (
 	cloud.google.com/go v0.56.0 // indirect
-	github.com/armory/dinghy v1.0.2-0.20200424215426-34434ed797d0
-	github.com/armory/plank v1.3.0
+	github.com/armory/dinghy v1.0.2-0.20200528002014-d1a0c9eb1f86
 	github.com/aws/aws-sdk-go v1.30.15 // indirect
 	github.com/frankban/quicktest v1.7.2 // indirect
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
@@ -18,7 +17,6 @@ require (
 	github.com/hashicorp/vault/api v1.0.5-0.20200317185738-82f498082f02 // indirect
 	github.com/hashicorp/vault/sdk v0.1.14-0.20200406173424-43a93d4a43b1 // indirect
 	github.com/imdario/mergo v0.3.9 // indirect
-	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/jinzhu/copier v0.0.0-20190924061706-b57f9002281a // indirect
 	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
 	github.com/mitchellh/mapstructure v1.2.3 // indirect
@@ -44,5 +42,4 @@ require (
 	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
 	gopkg.in/ini.v1 v1.55.0 // indirect
 	gopkg.in/square/go-jose.v2 v2.5.0 // indirect
-	gopkg.in/yaml.v2 v2.2.8 // indirect
 )
