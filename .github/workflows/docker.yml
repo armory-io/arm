@@ -12,6 +12,10 @@ jobs:
       GRADLE_ARGS: -Partifactory_user=${{secrets.ARTIFACTORY_USER}} -Partifactory_password=${{secrets.ARTIFACTORY_PASSWORD}} --info -x dockerClean -x dockerPrepare
     runs-on: ubuntu-latest
     steps:
+      - name: Get the version
+        id:   get_version
+        run:  echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
       - name: Cache Build Dependencies
         uses: actions/cache@v1
         with:
@@ -48,13 +52,13 @@ jobs:
         if: github.ref != 'refs/heads/master'
         run: |
           ./gradlew devSnapshot docker dockerPush $GRADLE_ARGS
-          echo "::set-env name=BUILD_NUMBER::$(./gradlew $GRADLE_ARGS printVersion|grep VERSION|awk -F: '{print $2}')"
+          echo "::set-env name=BUILD_NUMBER::${{ steps.get_version.outputs.VERSION }}"
 
       - name: Publish Candidate
         if: github.ref == 'refs/heads/master'
         run: |
           ./gradlew candidate docker dockerPush $GRADLE_ARGS
-          echo "::set-env name=BUILD_NUMBER::$(./gradlew -Prelease.useLastTag=true $GRADLE_ARGS printVersion|grep VERSION|awk -F: '{print $2}')"
+          echo "::set-env name=BUILD_NUMBER::${{ steps.get_version.outputs.VERSION }}"
 
       - name: Run Security Scan
         uses: armory-io/aquasec-scan-action@v0.0.8
