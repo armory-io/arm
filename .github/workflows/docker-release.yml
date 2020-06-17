@@ -2,7 +2,7 @@ name: Release Docker hub
 on:
   push:
     tags:
-    - '*.*.*' # Push events to matching v*, i.e. v1.0, v20.15.10
+    - 'v*.*.*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
   main:
@@ -45,7 +45,6 @@ jobs:
           ln -sf $(pwd) $(pwd)/build/docker
 
       - name: Publish Release
-        if: github.ref == 'refs/heads/master'
         run: |
           ./gradlew final docker dockerPush $GRADLE_ARGS
           echo "::set-env name=BUILD_NUMBER::${{ steps.get_version.outputs.VERSION }}"
@@ -60,11 +59,9 @@ jobs:
           registry: Artifactory
 
       - name: Login to Docker Hub
-        if: github.ref == 'refs/heads/master'
         run: docker login -u ${{ secrets.DOCKER_HUB_USER }} -p '${{ secrets.DOCKER_HUB_PASS }}'
 
       - name: Publish Release to Docker Hub
-        if: github.ref == 'refs/heads/master'
         run: |
           RELEASE=${{ steps.get_version.outputs.VERSION }}
           echo "Tagging armory-docker-all.jfrog.io/armory/$BASE_PROJECT$RELEASE to armory/$BASE_PROJECT:$RELEASE"
