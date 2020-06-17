@@ -1,6 +1,10 @@
 name: Scan & Publish Containers
 on:
   push:
+    branches:
+      - '*'
+    tags-ignore:
+      - '*.*.*' # Will not run when docker-release runs
 
 jobs:
   main:
