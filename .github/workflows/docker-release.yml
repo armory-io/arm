@@ -1,6 +1,8 @@
-name: Scan & Publish Containers
+name: Release Docker hub
 on:
   push:
+    tags:
+    - '*.*.*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
   main:
@@ -12,6 +14,10 @@ jobs:
       GRADLE_ARGS: -Partifactory_user=${{secrets.ARTIFACTORY_USER}} -Partifactory_password=${{secrets.ARTIFACTORY_PASSWORD}} --info -x dockerClean -x dockerPrepare
     runs-on: ubuntu-latest
     steps:
+      - name: Get the version
+        id:   get_version
+        run:  echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+      
       - name: Checkout Code
         uses: actions/checkout@v2
 
@@ -38,17 +44,11 @@ jobs:
           mkdir -p build
           ln -sf $(pwd) $(pwd)/build/docker
 
-      - name: Publish devSnapshot
-        if: github.ref != 'refs/heads/master'
-        run: |
-          ./gradlew devSnapshot docker dockerPush $GRADLE_ARGS
-          echo "::set-env name=BUILD_NUMBER::$(./gradlew $GRADLE_ARGS printVersion|grep VERSION|awk -F: '{print $2}')"
-
-      - name: Publish Candidate
+      - name: Publish Release
         if: github.ref == 'refs/heads/master'
         run: |
-          ./gradlew candidate docker dockerPush $GRADLE_ARGS
-          echo "::set-env name=BUILD_NUMBER::$(./gradlew -Prelease.useLastTag=true $GRADLE_ARGS printVersion|grep VERSION|awk -F: '{print $2}')"
+          ./gradlew final docker dockerPush $GRADLE_ARGS
+          echo "::set-env name=BUILD_NUMBER::${{ steps.get_version.outputs.VERSION }}"
 
       - name: Run Security Scan
         uses: armory-io/aquasec-scan-action@v0.0.8
@@ -58,3 +58,17 @@ jobs:
           url: https://aquasec.armory.io
           image: armory/${{ env.BASE_PROJECT }}:${{ env.BUILD_NUMBER }}
           registry: Artifactory
+
+      - name: Login to Docker Hub
+        if: github.ref == 'refs/heads/master'
+        run: docker login -u ${{ secrets.DOCKER_HUB_USER }} -p '${{ secrets.DOCKER_HUB_PASS }}'
+
+      - name: Publish Release to Docker Hub
+        if: github.ref == 'refs/heads/master'
+        run: |
+          RELEASE=${{ steps.get_version.outputs.VERSION }}
+          echo "Tagging armory-docker-all.jfrog.io/armory/$BASE_PROJECT$RELEASE to armory/$BASE_PROJECT:$RELEASE"
+          docker image tag armory-docker-local.jfrog.io/armory/$BASE_PROJECT:$RELEASE armory/$BASE_PROJECT:$RELEASE
+          echo "Pushing image..."
+          docker push armory/$BASE_PROJECT:$RELEASE
+
