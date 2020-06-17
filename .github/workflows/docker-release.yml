@@ -47,7 +47,7 @@ jobs:
       # Check https://github.com/nebula-plugins/nebula-release-plugin for more information regarding release.useLastTag
       - name: Publish Release
         run: |
-          ./gradlew final -Prelease.useLastTag=true docker dockerPush $GRADLE_ARGS
+          ./gradlew -Prelease.useLastTag=true final docker dockerPush $GRADLE_ARGS
 
       - name: Run Security Scan
         uses: armory-io/aquasec-scan-action@v0.0.8
