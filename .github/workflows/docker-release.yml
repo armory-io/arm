@@ -47,7 +47,7 @@ jobs:
       - name: Publish Release
         run: |
           ./gradlew final docker dockerPush $GRADLE_ARGS
-          echo "::set-env name=BUILD_NUMBER::${{ steps.get_version.outputs.VERSION }}"
+          echo "::set-env name=BUILD_NUMBER::$(./gradlew $GRADLE_ARGS printVersion|grep VERSION|awk -F: '{print $2}')"
 
       - name: Run Security Scan
         uses: armory-io/aquasec-scan-action@v0.0.8
@@ -63,9 +63,10 @@ jobs:
 
       - name: Publish Release to Docker Hub
         run: |
-          RELEASE=${{ steps.get_version.outputs.VERSION }}
-          echo "Tagging armory-docker-all.jfrog.io/armory/$BASE_PROJECT:$RELEASE to armory/$BASE_PROJECT:$RELEASE"
-          docker image tag armory-docker-local.jfrog.io/armory/$BASE_PROJECT:$RELEASE armory/$BASE_PROJECT:$RELEASE
+          RELEASE=${{ env.BUILD_NUMBER }}
+          DOCKER_VERSION=${{ steps.get_version.outputs.VERSION }}
+          echo "Tagging armory-docker-all.jfrog.io/armory/$BASE_PROJECT:$RELEASE to armory/$BASE_PROJECT:$DOCKER_VERSION"
+          docker image tag armory-docker-local.jfrog.io/armory/$BASE_PROJECT:$RELEASE armory/$BASE_PROJECT:$DOCKER_VERSION
           echo "Pushing image..."
-          docker push armory/$BASE_PROJECT:$RELEASE
+          docker push armory/$BASE_PROJECT:$DOCKER_VERSION
 
