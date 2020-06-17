@@ -46,7 +46,7 @@ jobs:
 
       - name: Publish Release
         run: |
-          ./gradlew final docker dockerPush $GRADLE_ARGS
+          ./gradlew final -Prelease.useLastTag=true docker dockerPush $GRADLE_ARGS
           echo "::set-env name=BUILD_NUMBER::$(./gradlew $GRADLE_ARGS printVersion|grep VERSION|awk -F: '{print $2}')"
 
       - name: Run Security Scan
