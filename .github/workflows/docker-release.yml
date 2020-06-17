@@ -2,7 +2,7 @@ name: Release Docker hub
 on:
   push:
     tags:
-    - 'v*.*.*' # Push events to matching v*, i.e. v1.0, v20.15.10
+    - '*.*.*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
   main:
@@ -64,7 +64,7 @@ jobs:
       - name: Publish Release to Docker Hub
         run: |
           RELEASE=${{ steps.get_version.outputs.VERSION }}
-          echo "Tagging armory-docker-all.jfrog.io/armory/$BASE_PROJECT$RELEASE to armory/$BASE_PROJECT:$RELEASE"
+          echo "Tagging armory-docker-all.jfrog.io/armory/$BASE_PROJECT:$RELEASE to armory/$BASE_PROJECT:$RELEASE"
           docker image tag armory-docker-local.jfrog.io/armory/$BASE_PROJECT:$RELEASE armory/$BASE_PROJECT:$RELEASE
           echo "Pushing image..."
           docker push armory/$BASE_PROJECT:$RELEASE
