@@ -17,12 +17,6 @@ jobs:
       - name: Get the version
         id:   get_version
         run:  echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-
-      - name: Cache Build Dependencies
-        uses: actions/cache@v1
-        with:
-          path: ~/.gradle/caches
-          key: gradle-${{ hashFiles('**/*.gradle*') }}
       
       - name: Checkout Code
         uses: actions/checkout@v2
