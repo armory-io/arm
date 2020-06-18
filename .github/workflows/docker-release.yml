@@ -44,10 +44,10 @@ jobs:
           mkdir -p build
           ln -sf $(pwd) $(pwd)/build/docker
 
+      # Check https://github.com/nebula-plugins/nebula-release-plugin for more information regarding release.useLastTag
       - name: Publish Release
         run: |
-          ./gradlew final docker dockerPush $GRADLE_ARGS
-          echo "::set-env name=BUILD_NUMBER::$(./gradlew $GRADLE_ARGS printVersion|grep VERSION|awk -F: '{print $2}')"
+          ./gradlew -Prelease.useLastTag=true final docker dockerPush $GRADLE_ARGS
 
       - name: Run Security Scan
         uses: armory-io/aquasec-scan-action@v0.0.8
@@ -55,7 +55,7 @@ jobs:
           username: ${{ secrets.AQUA_USER }}
           password: ${{ secrets.AQUA_PASSWORD }}
           url: https://aquasec.armory.io
-          image: armory/${{ env.BASE_PROJECT }}:${{ env.BUILD_NUMBER }}
+          image: armory/${{ env.BASE_PROJECT }}:${{ steps.get_version.outputs.VERSION }}
           registry: Artifactory
 
       - name: Login to Docker Hub
@@ -63,10 +63,9 @@ jobs:
 
       - name: Publish Release to Docker Hub
         run: |
-          RELEASE=${{ env.BUILD_NUMBER }}
-          DOCKER_VERSION=${{ steps.get_version.outputs.VERSION }}
-          echo "Tagging armory-docker-all.jfrog.io/armory/$BASE_PROJECT:$RELEASE to armory/$BASE_PROJECT:$DOCKER_VERSION"
-          docker image tag armory-docker-local.jfrog.io/armory/$BASE_PROJECT:$RELEASE armory/$BASE_PROJECT:$DOCKER_VERSION
+          RELEASE=${{ steps.get_version.outputs.VERSION }}
+          echo "Tagging armory-docker-all.jfrog.io/armory/$BASE_PROJECT:$RELEASE to armory/$BASE_PROJECT:$RELEASE"
+          docker image tag armory-docker-local.jfrog.io/armory/$BASE_PROJECT:$RELEASE armory/$BASE_PROJECT:$RELEASE
           echo "Pushing image..."
-          docker push armory/$BASE_PROJECT:$DOCKER_VERSION
+          docker push armory/$BASE_PROJECT:$RELEASE
 
