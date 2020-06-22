@@ -193,8 +193,6 @@ nil,
 			got, err := dinghyRender(tt.args.args)
 			if err != nil {
 				if tt.errorMsg != nil {
-					//var test1 = fmt.Sprint("%v", tt.errorMsg)
-					//var test2 = fmt.Sprintf("%v", err)
 					assert.Equal(t, tt.errorMsg, err)
 				} else  {
 					t.Fail()
