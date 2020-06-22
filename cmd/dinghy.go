@@ -126,8 +126,14 @@ func dinghyRender(args []string) (string, error) {
 
 			errValidation := builder.ValidatePipelines(d, out.Bytes())
 			if errValidation != nil {
-				log.Error("Final Dinghyfile failed validations, please correct them and retry")
-				return "", errors.New("Final Dinghyfile failed validations, please correct them and retry")
+				log.Errorf("Final Dinghyfile failed validations, please correct them and retry. %v", errValidation)
+				return "", fmt.Errorf("Final Dinghyfile failed validations, please correct them and retry. %v", errValidation)
+			}
+
+			errValidation = builder.ValidateAppNotifications(d, out.Bytes())
+			if errValidation != nil {
+				log.Errorf("Final Dinghyfile failed application notification validations, please correct them and retry. %v", errValidation)
+				return "", fmt.Errorf("Final Dinghyfile failed application notification validations, please correct them and retry. %v", errValidation)
 			}
 
 			//Save file if output exists

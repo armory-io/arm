@@ -3,6 +3,8 @@ package cmd
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
+	"github.com/magiconair/properties/assert"
 	"github.com/spf13/viper"
 	"testing"
 )
@@ -16,6 +18,7 @@ func Test_dinghyRender(t *testing.T) {
 		args args
 		viper map[string]string
 		want string
+		errorMsg error
 	}{
 		//Basic dinghy file
 		{ "TestBasicDinghy" , args{[]string{"../examples/dinghyfile_basic"}}, map[string]string{"modules": "../examples/modules"},
@@ -35,6 +38,7 @@ func Test_dinghyRender(t *testing.T) {
 					}
 				  ]
 				}`,
+				nil,
 		},
 
 		{ "TestConditionalsDinghy" , args{[]string{"../examples/dinghyfile_conditionals"}}, map[string]string{"modules": "../examples/modules", "rawdata": "../examples/RawData.json"},
@@ -54,6 +58,7 @@ func Test_dinghyRender(t *testing.T) {
     }
   ]
 }`,
+nil,
 		},
 
 		{ "TestGlobalsDinghy" , args{[]string{"../examples/dinghyfile_globals"}}, map[string]string{"modules": "../examples/modules"},
@@ -82,6 +87,7 @@ func Test_dinghyRender(t *testing.T) {
     }
   ]
 }`,
+nil,
 		},
 
 		{ "TestMakeSliceDinghy" , args{[]string{"../examples/dinghyfile_makeSlice"}}, map[string]string{"modules": "../examples/modules"},
@@ -111,6 +117,7 @@ func Test_dinghyRender(t *testing.T) {
     }
   ]
 }`,
+nil,
 		},
 
 		{ "TestRawDataDinghy" , args{[]string{"../examples/dinghyfile_rawdata"}}, map[string]string{"modules": "../examples/modules", "rawdata": "../examples/RawData.json"},
@@ -130,6 +137,7 @@ func Test_dinghyRender(t *testing.T) {
     }
   ]
 }`,
+nil,
 		},
 
 		{ "TestLocalModulesDinghy" , args{[]string{"../examples/dinghyfile_localmodule"}}, map[string]string{"modules": "../examples/modules", "rawdata": "../examples/RawData.json"},
@@ -163,6 +171,15 @@ func Test_dinghyRender(t *testing.T) {
     }
   ]
 }`,
+nil,
+		},
+		{ "TestValidatePipelines.json" , args{[]string{"../test_dinghyfiles/TestValidatePipelines.json"}}, map[string]string{"modules": "../examples/modules", "rawdata": "../examples/RawData.json"},
+			``,
+			errors.New("Final Dinghyfile failed validations, please correct them and retry. mj2 refers to itself. Circular references are not supported"),
+		},
+		{ "TestValidateAppNotifications.json" , args{[]string{"../test_dinghyfiles/TestValidateAppnotifications.json"}}, map[string]string{"modules": "../examples/modules", "rawdata": "../examples/RawData.json"},
+			``,
+			errors.New("Final Dinghyfile failed application notification validations, please correct them and retry. application notifications format is invalid for email"),
 		},
 	}
 
@@ -175,20 +192,27 @@ func Test_dinghyRender(t *testing.T) {
 
 			got, err := dinghyRender(tt.args.args)
 			if err != nil {
-				t.Fail()
-			}
-			if got != "" {
-				var gotBuffer bytes.Buffer
-				var wantBuffer bytes.Buffer
-				json.Indent(&gotBuffer, []byte(got), "", "  ")
-				json.Indent(&wantBuffer, []byte(tt.want), "", "  ")
-				if gotBuffer.String() != wantBuffer.String() {
-					t.Errorf("dinghyRender() = %v, want %v", got, tt.want)
+				if tt.errorMsg != nil {
+					//var test1 = fmt.Sprint("%v", tt.errorMsg)
+					//var test2 = fmt.Sprintf("%v", err)
+					assert.Equal(t, tt.errorMsg, err)
+				} else  {
 					t.Fail()
 				}
 			} else {
-				t.Errorf("dinghyRender() = %v, want %v", got, tt.want)
-				t.Fail()
+				if got != "" {
+					var gotBuffer bytes.Buffer
+					var wantBuffer bytes.Buffer
+					json.Indent(&gotBuffer, []byte(got), "", "  ")
+					json.Indent(&wantBuffer, []byte(tt.want), "", "  ")
+					if gotBuffer.String() != wantBuffer.String() {
+						t.Errorf("dinghyRender() = %v, want %v", got, tt.want)
+						t.Fail()
+					}
+				} else {
+					t.Errorf("dinghyRender() = %v, want %v", got, tt.want)
+					t.Fail()
+				}
 			}
 		})
 	}

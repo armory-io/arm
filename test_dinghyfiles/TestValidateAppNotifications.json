@@ -1,0 +1,53 @@
+{
+    "application": "foo",
+    "spec": {
+        "name": "foo",
+        "email": "foo@test.com",
+        "dataSources": {
+            "disabled": [],
+            "enabled": []
+        },
+        "notifications": {
+            "slack": [
+                {
+                    "when": [
+                        "pipeline.complete",
+                        "pipeline.failed"
+                    ],
+                    "address": "slack-channel"
+                }
+            ],
+            "email": {
+                "when": [
+                    "pipeline.complete",
+                    "pipeline.failed"
+                ],
+                "address": "email-address"
+            }
+        }
+    },
+    "pipelines": [
+        {
+            "name": "test",
+            "expectedArtifacts": [
+                {
+                    "foo": {
+                        "bar": "baz"
+                    }
+                }
+            ],
+            "stages": [
+                {
+                    "failPipeline": true,
+                    "judgmentInputs": [],
+                    "name": "Manual Judgment 2",
+                    "notifications": [],
+                    "refId": "mj2",
+                    "requisiteStageRefIds": [
+                    ],
+                    "type": "manualJudgment"
+                }
+            ]
+        }
+    ]
+}
