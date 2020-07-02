@@ -8,9 +8,11 @@ import (
 	"github.com/armory-io/arm/pkg"
 	"github.com/armory/dinghy/pkg/cache"
 	"github.com/armory/dinghy/pkg/dinghyfile"
+	"github.com/armory/plank/v3"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"io/ioutil"
+	"net/http"
 	"os"
 	"path/filepath"
 )
@@ -73,6 +75,7 @@ func dinghyRender(args []string) (string, error) {
 		log.Error("No dinghy file was entered, please refer to documentation or execute this command with --help")
 		os.Exit(1)
 	}
+	var httpClient *http.Client
 
 	downloader := pkg.LocalDownloader{}
 	builder := &dinghyfile.PipelineBuilder{
@@ -81,7 +84,7 @@ func dinghyRender(args []string) (string, error) {
 		TemplateRepo:    viper.GetString("modules"),
 		TemplateOrg:     "templateOrg",
 		Logger:          log.WithField("arm-cli-test", ""),
-		Client:          nil,
+		Client:          plank.New(plank.WithClient(httpClient), plank.WithFiatUser("")),
 		EventClient:     &dinghyfile.EventsTestClient{},
 		Parser:          &dinghyfile.DinghyfileParser{},
 		DinghyfileName:  filepath.Base(file),
