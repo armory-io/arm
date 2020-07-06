@@ -151,6 +151,7 @@ github.com/jstemmer/go-junit-report/parser
 github.com/konsorten/go-windows-terminal-sequences
 # github.com/magiconair/properties v1.8.1
 github.com/magiconair/properties
+github.com/magiconair/properties/assert
 # github.com/mitchellh/go-homedir v1.1.0
 github.com/mitchellh/go-homedir
 # github.com/mitchellh/mapstructure v1.2.3

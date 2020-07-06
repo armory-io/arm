@@ -5,6 +5,7 @@ go 1.12
 require (
 	cloud.google.com/go v0.56.0 // indirect
 	github.com/armory/dinghy v1.0.2-0.20200611173941-59fed35d9605
+	github.com/armory/plank/v3 v3.4.1
 	github.com/aws/aws-sdk-go v1.30.15 // indirect
 	github.com/frankban/quicktest v1.7.2 // indirect
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
@@ -35,7 +36,7 @@ require (
 	golang.org/x/net v0.0.0-20200425230154-ff2c4b7c35a0 // indirect
 	golang.org/x/sys v0.0.0-20200427175716-29b57079015a // indirect
 	golang.org/x/time v0.0.0-20200416051211-89c76fbcd5d1 // indirect
-	golang.org/x/tools v0.0.0-20200428211428-0c9eba77bc32
+	golang.org/x/tools v0.0.0-20200428211428-0c9eba77bc32 // indirect
 	google.golang.org/api v0.22.0 // indirect
 	google.golang.org/appengine v1.6.6 // indirect
 	google.golang.org/genproto v0.0.0-20200424135956-bca184e23272 // indirect
