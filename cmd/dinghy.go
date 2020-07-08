@@ -84,7 +84,7 @@ func dinghyRender(args []string) (string, error) {
 		TemplateRepo:    viper.GetString("modules"),
 		TemplateOrg:     "templateOrg",
 		Logger:          log.WithField("arm-cli-test", ""),
-		Client:          plank.New(plank.WithClient(httpClient), plank.WithFiatUser("")),
+		Client:          nil,
 		EventClient:     &dinghyfile.EventsTestClient{},
 		Parser:          &dinghyfile.DinghyfileParser{},
 		DinghyfileName:  filepath.Base(file),
