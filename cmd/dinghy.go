@@ -11,7 +11,6 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"io/ioutil"
-	"net/http"
 	"os"
 	"path/filepath"
 )
@@ -74,7 +73,6 @@ func dinghyRender(args []string) (string, error) {
 		log.Error("No dinghy file was entered, please refer to documentation or execute this command with --help")
 		os.Exit(1)
 	}
-	var httpClient *http.Client
 
 	downloader := pkg.LocalDownloader{}
 	builder := &dinghyfile.PipelineBuilder{
