@@ -8,7 +8,6 @@ import (
 	"github.com/armory-io/arm/pkg"
 	"github.com/armory/dinghy/pkg/cache"
 	"github.com/armory/dinghy/pkg/dinghyfile"
-	"github.com/armory/plank/v3"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"io/ioutil"
