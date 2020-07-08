@@ -10,7 +10,7 @@ cloud.google.com/go/internal/version
 cloud.google.com/go/storage
 # github.com/BurntSushi/toml v0.3.1
 github.com/BurntSushi/toml
-# github.com/armory/dinghy v1.0.2-0.20200528002014-d1a0c9eb1f86
+# github.com/armory/dinghy v1.0.2-0.20200611173941-59fed35d9605
 github.com/armory/dinghy/pkg/cache
 github.com/armory/dinghy/pkg/dinghyfile
 github.com/armory/dinghy/pkg/events
@@ -20,14 +20,14 @@ github.com/armory/dinghy/pkg/notifiers
 github.com/armory/dinghy/pkg/preprocessor
 github.com/armory/dinghy/pkg/settings
 github.com/armory/dinghy/pkg/util
-# github.com/armory/go-yaml-tools v0.0.0-20200316192928-75770481ad01
+# github.com/armory/go-yaml-tools v0.0.0-20200603151141-b037d3988c49
 github.com/armory/go-yaml-tools/pkg/secrets
 github.com/armory/go-yaml-tools/pkg/spring
 github.com/armory/go-yaml-tools/pkg/tls
 github.com/armory/go-yaml-tools/pkg/tls/client
 github.com/armory/go-yaml-tools/pkg/tls/server
 github.com/armory/go-yaml-tools/pkg/yaml
-# github.com/armory/plank/v3 v3.1.0
+# github.com/armory/plank/v3 v3.4.1
 github.com/armory/plank/v3
 # github.com/aws/aws-sdk-go v1.30.15
 github.com/aws/aws-sdk-go/aws
@@ -151,6 +151,7 @@ github.com/jstemmer/go-junit-report/parser
 github.com/konsorten/go-windows-terminal-sequences
 # github.com/magiconair/properties v1.8.1
 github.com/magiconair/properties
+github.com/magiconair/properties/assert
 # github.com/mitchellh/go-homedir v1.1.0
 github.com/mitchellh/go-homedir
 # github.com/mitchellh/mapstructure v1.2.3

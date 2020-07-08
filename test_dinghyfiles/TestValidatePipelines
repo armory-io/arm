@@ -1,0 +1,28 @@
+{
+    "application": "foo",
+    "pipelines": [
+        {
+            "name": "test",
+            "expectedArtifacts": [
+                {
+                    "foo": {
+                        "bar": "baz"
+                    }
+                }
+            ],
+            "stages": [
+                {
+                    "failPipeline": true,
+                    "judgmentInputs": [],
+                    "name": "Manual Judgment 2",
+                    "notifications": [],
+                    "refId": "mj2",
+                    "requisiteStageRefIds": [
+                        "mj2"
+                    ],
+                    "type": "manualJudgment"
+                }
+            ]
+        }
+    ]
+}

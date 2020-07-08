@@ -68,4 +68,8 @@ jobs:
           docker image tag armory-docker-local.jfrog.io/armory/$BASE_PROJECT:$RELEASE armory/$BASE_PROJECT:$RELEASE
           echo "Pushing image..."
           docker push armory/$BASE_PROJECT:$RELEASE
+          echo "Tagging armory-docker-all.jfrog.io/armory/$BASE_PROJECT:$RELEASE to armory/$BASE_PROJECT:latest"
+          docker image tag armory-docker-local.jfrog.io/armory/$BASE_PROJECT:$RELEASE armory/$BASE_PROJECT:latest
+          echo "Pushing image..."
+          docker push armory/$BASE_PROJECT:latest
 
