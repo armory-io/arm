@@ -181,6 +181,25 @@ nil,
 			``,
 			errors.New("Final Dinghyfile failed application notification validations, please correct them and retry. application notifications format is invalid for email"),
 		},
+		{ "TestPipelineID" , args{[]string{"../examples/dinghyfile_pipelineID"}}, map[string]string{"modules": "../examples/modules", "rawdata": "../examples/RawData.json"},
+			`{
+  "application": "pipelineidexample",
+  "pipelines": [
+    {
+      "application": "pipelineidexample",
+      "name": "my-pipeline-name",
+      "stages": [
+        {
+          "name": "reference pipeline",
+          "pipeline": "default-pipeline",
+          "type": "pipeline"
+        }
+      ]
+    }
+  ]
+}`,
+			nil,
+		},
 	}
 
 	for _, tt := range tests {
