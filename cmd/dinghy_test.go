@@ -191,6 +191,7 @@ nil,
       "stages": [
         {
           "name": "reference pipeline",
+          "application": "default-app",
           "pipeline": "default-pipeline",
           "type": "pipeline"
         }
