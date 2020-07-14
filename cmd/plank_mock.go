@@ -37,7 +37,7 @@ func (p PlankMock) UpdateApplication(plank.Application) error{
 
 func (p PlankMock) GetPipelines(string string) ([]plank.Pipeline, error){
 	return []plank.Pipeline{{
-		ID:                   pipelineID,
+		ID:                   "mock-" + pipelineID+ "-id",
 		Type:                 "",
 		Name:                 pipelineID,
 		Application:          string,

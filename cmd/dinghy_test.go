@@ -192,7 +192,7 @@ nil,
         {
           "name": "reference pipeline",
           "application": "default-app",
-          "pipeline": "default-pipeline",
+          "pipeline": "mock-default-pipeline-id",
           "type": "pipeline"
         }
       ]
