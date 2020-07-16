@@ -109,7 +109,7 @@ Example files:
 | dinghyfile_makeSlice                        | :white_check_mark: | :x:                | dinghy render ./examples/dinghyfile_makeSlice --modules ./examples/modules                                                      |
 | dinghyfile_makeSlice_conditional_rawdata    | :white_check_mark: | :white_check_mark: | dinghy render ./examples/dinghyfile_makeSlice_conditional_rawdata --modules ./examples/modules --rawdata ./examples/RawData.json|
 | dinghyfile_localmodule                      | :white_check_mark: | :x:                | dinghy render ./examples/dinghyfile_localmodule --modules ./examples/modules                                                    |
-
+| dinghyfile_pipelineID                       | :x:                | :x:                | dinghy render ./examples/dinghyfile_pipelineID                                                                                  |
 
 #### Example
 ```bash

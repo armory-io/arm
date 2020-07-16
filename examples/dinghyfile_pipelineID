@@ -1,0 +1,17 @@
+{
+  "application": "pipelineidexample",
+  "pipelines": [
+    {
+      "application": "pipelineidexample",
+      "name": "my-pipeline-name",
+      "stages": [
+        {
+          "name": "reference pipeline",
+          "application": "default-app",
+          "pipeline": "{{ pipelineID "default-app" "default-pipeline" }}",
+          "type": "pipeline"
+        }
+      ]
+    }
+  ]
+}
