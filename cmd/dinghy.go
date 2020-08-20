@@ -52,6 +52,7 @@ func processRawData(rawDataPath string) map[string]interface{} {
 }
 
 func init() {
+	renderCmd.Flags().String("local_modules", "", "local path to the dinghy local_module repository, if not specified local_module will be base path from dinghyfile")
 	renderCmd.Flags().String("modules", "", "local path to the dinghy modules repository")
 	renderCmd.Flags().String("rawdata", "", "optional rawdata json in case is needed")
 	renderCmd.Flags().String("output", "", "output json rendered as it will be rendered by dinghy")
@@ -63,9 +64,11 @@ func init() {
 
 func dinghyRender(args []string) (string, error) {
 
+	//Init log
 	log := initLog()
 	log.Info("Checking dinghyfile")
 
+	//Check that dinghyfile is entered
 	var file string
 	if len(args) > 0 {
 		file = args[0]
@@ -74,7 +77,25 @@ func dinghyRender(args []string) (string, error) {
 		os.Exit(1)
 	}
 
-	downloader := pkg.LocalDownloader{}
+	//Get absolute path for dinghyfile
+	absFile, err := filepath.Abs(file)
+	if err != nil {
+		log.Errorf("Invalid path for dinghyfile: %v", err)
+		return "", fmt.Errorf("Invalid path for dinghyfile: %v", err)
+	}
+
+	//Separate directory path and filename
+	repoFolder := fmt.Sprint(filepath.Dir(absFile))
+	fileName := fmt.Sprint(filepath.Base(absFile))
+
+	//Downloader will have the original dinghyfile directory and the dinghyfile name so we can read the dinghyfile
+	//from the original location and then change it to the local_modules if some input parameter is there
+	downloader := pkg.LocalDownloader{
+		LocalModule: absFile,
+		RepoFolder: repoFolder,
+		DinghyfileName: fileName,
+	}
+
 	builder := &dinghyfile.PipelineBuilder{
 		Downloader:      downloader,
 		Depman:          cache.NewMemoryCache(),
@@ -84,7 +105,7 @@ func dinghyRender(args []string) (string, error) {
 		Client:          PlankMock{},
 		EventClient:     &dinghyfile.EventsTestClient{},
 		Parser:          &dinghyfile.DinghyfileParser{},
-		DinghyfileName:  filepath.Base(file),
+		DinghyfileName:  fileName,
 		Ums:             []dinghyfile.Unmarshaller{&dinghyfile.DinghyJsonUnmarshaller{}},
 	}
 
@@ -92,16 +113,20 @@ func dinghyRender(args []string) (string, error) {
 	builder.PushRaw = processRawData(viper.GetString("rawdata"))
 
 	log.Info("Parsing dinghyfile")
-
 	builder.Parser.SetBuilder(builder)
 
-	absFile, err := filepath.Abs(file)
-	if err != nil {
-		log.Errorf("Invalid path for dinghyfile: %v", err)
-		return "", fmt.Errorf("Invalid path for dinghyfile: %v", err)
+	//If local_modules is entered we will change the repoFolder so all the files are read from that location
+	//The dinghyfile is the only file that will not be read from there, downloader already has the information from
+	//where to read
+	var localModulesPath = viper.GetString("local_modules")
+	if localModulesPath != "" {
+		absFile = filepath.Dir(localModulesPath) + string(filepath.Separator) + filepath.Base(file)
 	}
-	repoFolder := fmt.Sprint(filepath.Dir(absFile))
-	fileName := fmt.Sprint(filepath.Base(absFile))
+
+	repoFolder = fmt.Sprint(filepath.Dir(absFile))
+	fileName = fmt.Sprint(filepath.Base(absFile))
+
+	//Parse dinghyfile
 	out, err := builder.Parser.Parse( "templateOrg", repoFolder, fileName, "", nil)
 
 	if err != nil {

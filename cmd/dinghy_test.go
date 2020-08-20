@@ -173,6 +173,39 @@ nil,
 }`,
 nil,
 		},
+		{ "TestLocalModulesWithParameter" , args{[]string{"../examples/dinghyfile_localmodule_parameter"}}, map[string]string{"modules": "../examples/modules", "rawdata": "../examples/RawData.json", "local_modules" : "../"},
+			`{
+  "application": "localmodules",
+  "globals": {
+    "waitTime": "42",
+    "waitname": "localmodule default-name"
+  },
+  "pipelines": [
+    {
+      "application": "localmodules",
+      "name": "Made By Armory Pipeline Templates",
+      "stages": [
+        {
+          "name": "localmodule default-name",
+          "waitTime": "42",
+          "type": "wait"
+        },
+        {
+          "name": "localmodule overwrite-name",
+          "waitTime": "100",
+          "type": "wait"
+        },
+        {
+          "name": "global module overwrite-name",
+          "waitTime": "100",
+          "type": "wait"
+        }
+      ]
+    }
+  ]
+}`,
+			nil,
+		},
 		{ "TestValidatePipelines" , args{[]string{"../test_dinghyfiles/TestValidatePipelines"}}, map[string]string{"modules": "../examples/modules", "rawdata": "../examples/RawData.json"},
 			``,
 			errors.New("Final Dinghyfile failed validations, please correct them and retry. mj2 refers to itself. Circular references are not supported"),
