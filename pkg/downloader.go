@@ -9,6 +9,9 @@ import (
 
 type LocalDownloader struct {
 	dinghyfile.Downloader
+	LocalModule string
+	DinghyfileName string
+	RepoFolder string
 }
 
 func (d LocalDownloader) EncodeURL(org, repo, file, branch string) string {
@@ -21,7 +24,9 @@ func (d LocalDownloader) DecodeURL(url string) (string, string, string, string) 
 
 func (d LocalDownloader) Download(org, repo, file, branch string) (string, error) {
 	pth := file
-	if repo != "" {
+	if file == d.DinghyfileName {
+		pth = filepath.Join(d.RepoFolder, file)
+	} else 	if repo != "" {
 		pth = filepath.Join(repo, pth)
 	}
 

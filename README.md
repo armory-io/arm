@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/armory-io/arm/badge.svg?branch=master)](https://coveralls.io/github/armory-io/arm?branch=master)
+
 # Armory CLI
 Armory CLI or better know as `arm cli` is a tool that let you render dinghyfiles offline. You need to specify the dinghyfiles, modules and rawdata depending of the content of the dinghyfile to be rendered.
 
@@ -12,7 +14,8 @@ Armory CLI or better know as `arm cli` is a tool that let you render dinghyfiles
 
 There's a docker image for arm-cli, you can find it in [Docker Hub](https://hub.docker.com/r/armory/arm-cli). In order to use it you can:
 ```
-docker run -it docker.io/armory/arm-cli /bin/sh
+docker pull armory/arm-cli:latest
+docker run -it armory/arm-cli /bin/sh
 ```
 And then in shell you can just execute ``arm`` command.
 ```
@@ -100,16 +103,17 @@ Both the Dinghyfile and module repo must be available locally, there is an examp
 
 Example files:
 
-| Filename                                    | Module             | RawData            | Parameters                                                                                                                      |
-|---------------------------------------------|--------------------|--------------------|---------------------------------------------------------------------------------------------------------------------------------|
-| dinghyfile_basic                            | :x:                | :x:                | dinghy render ./examples/dinghyfile_basic                                                                                       |
-| dinghyfile_rawdata                          | :x:                | :white_check_mark: | dinghy render ./examples/dinghyfile_rawdata --rawdata ./examples/RawData.json                                                   |
-| dinghyfile_conditionals                     | :x:                | :x:                | dinghy render ./examples/dinghyfile_conditionals                                                                                |
-| dinghyfile_globals                          | :white_check_mark: | :x:                | dinghy render ./examples/dinghyfile_globals --modules ./examples/modules                                                        |
-| dinghyfile_makeSlice                        | :white_check_mark: | :x:                | dinghy render ./examples/dinghyfile_makeSlice --modules ./examples/modules                                                      |
-| dinghyfile_makeSlice_conditional_rawdata    | :white_check_mark: | :white_check_mark: | dinghy render ./examples/dinghyfile_makeSlice_conditional_rawdata --modules ./examples/modules --rawdata ./examples/RawData.json|
-| dinghyfile_localmodule                      | :white_check_mark: | :x:                | dinghy render ./examples/dinghyfile_localmodule --modules ./examples/modules                                                    |
-| dinghyfile_pipelineID                       | :x:                | :x:                | dinghy render ./examples/dinghyfile_pipelineID                                                                                  |
+| Filename                                    | Module             | RawData            | Local Module       | Parameters                                                                                                                      |
+|---------------------------------------------|--------------------|--------------------|--------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| dinghyfile_basic                            | :x:                | :x:                | :x:                | dinghy render ./examples/dinghyfile_basic                                                                                       |
+| dinghyfile_rawdata                          | :x:                | :white_check_mark: | :x:                | dinghy render ./examples/dinghyfile_rawdata --rawdata ./examples/RawData.json                                                   |
+| dinghyfile_conditionals                     | :x:                | :x:                | :x:                | dinghy render ./examples/dinghyfile_conditionals                                                                                |
+| dinghyfile_globals                          | :white_check_mark: | :x:                | :x:                | dinghy render ./examples/dinghyfile_globals --modules ./examples/modules                                                        |
+| dinghyfile_makeSlice                        | :white_check_mark: | :x:                | :x:                | dinghy render ./examples/dinghyfile_makeSlice --modules ./examples/modules                                                      |
+| dinghyfile_makeSlice_conditional_rawdata    | :white_check_mark: | :white_check_mark: | :x:                | dinghy render ./examples/dinghyfile_makeSlice_conditional_rawdata --modules ./examples/modules --rawdata ./examples/RawData.json|
+| dinghyfile_localmodule                      | :white_check_mark: | :x:                | :x:                | dinghy render ./examples/dinghyfile_localmodule --modules ./examples/modules                                                    |
+| dinghyfile_pipelineID                       | :x:                | :x:                | :x:                | dinghy render ./examples/dinghyfile_pipelineID                                                                                  |
+| dinghyfile_localmodule_parameter            | :white_check_mark: | :x:                | :white_check_mark: | dinghy render ./examples/dinghyfile_localmodule_parameter --modules ./examples/modules --local_modules ./                       |
 
 #### Example
 ```bash
