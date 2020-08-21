@@ -8,14 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go: [ '1.13.10']
+        go: [ '1.14.4']
     steps:
     - name: Get the version
       id:   get_version
       run:  echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
 
     - name: Set up Go 1.x
-      uses: actions/setup-go@v1
+      uses: actions/setup-go@v2
       with:
         go-version: ${{ matrix.go }}
       id: go
