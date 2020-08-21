@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go: [ '1.14.4']
+        go: [ '1.13.10']
     steps:
     - name: Get the version
       id:   get_version
@@ -33,7 +33,7 @@ jobs:
       run: go build -v .
 
     - name: Test
-      run: go test -v -mod=vendor -race -covermode atomic -coverprofile=profile.cov ./...
+      run: go test -v -mod=vendor -coverprofile=profile.cov ./...
 
     - name: Send Coverage
       uses: shogo82148/actions-goveralls@v1
