@@ -109,11 +109,8 @@ Open Preferences and navigate to Tools -> External Tools. Click on the "+"
 button to add a new configuration with the following values:
 
 - Program: path to where the CLI is installed
-- Arguments:
-```
-dinghy render $FilePathRelativeToProjectRoot$ --modules <directory where templates repository checked out locally>
-```
-Working directory: ```$ProjectFileDir$```
+- Arguments: ```dinghy render $FilePathRelativeToProjectRoot$ --modules <directory where templates repository checked out locally>```
+- Working directory: ```$ProjectFileDir$```
 
   <img src="docs/img/intellij_external_tool_config.png" width="50%" />
 
