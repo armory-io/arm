@@ -98,6 +98,37 @@ Since arm-cli is not signed you may receive a couple of messages regarding secur
 
  <img src="docs/img/05_working.jpg" width="50%" />
 
+## IntelliJ Integration
+
+The CLI can be configured to run within IntelliJ. This allows you to validate
+pipelines being edited without having to switch context to a terminal.
+
+1. Add the CLI as an External Tool
+
+Open Preferences and navigate to Tools -> External Tools. Click on the "+"
+button to add a new configuration with the following values:
+
+- Program: path to where the CLI is installed
+- Arguments:
+```
+dinghy render $FilePathRelativeToProjectRoot$ --modules <directory where templates repository checked out locally>
+```
+Working directory: ```$ProjectFileDir$```
+
+  <img src="docs/img/intellij_external_tool_config.png" width="50%" />
+
+2. Bind the CLI to a shortcut
+
+In Preferences nagivate to Keymap. Expand "External Tools" and add a Keyboard
+shortcut for the CLI.
+
+  <img src="docs/img/intellij_keymap_config.png" width="50%" />
+
+3. Run CLI on open dinghyfile
+
+When editing a dinghyfile you can invoke the CLI using the keyboard shortcut.
+The CLI will run against the open dinghyfile being edited.
+
 ## Usage
 Both the Dinghyfile and module repo must be available locally, there is an example folder build in the release zip file. For each file the command would be a little different depending if they use modules(other templating files) or rawdata (git push information). You can execute `dinghy render --help` anytime to get current supported parameters.
 
