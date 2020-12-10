@@ -1,0 +1,12 @@
+application: makeSlice
+pipelines:
+- application: makeSlice
+  name: Loop Example
+  stages:
+    {{ if eq .RawData.pusher.name "Samtribal" }}
+      {{ $stages := makeSlice "First Wait" "Second Wait" }}
+      {{ range $stages }}
+{{ module "stage.minimal.wait.module" "waitname" . }}
+      {{ end }}
+    {{ end }}
+{{ module "stage.minimal.wait.module" "waitname" "Final Wait" }}

@@ -1,0 +1,3 @@
+  - name": {{ var "waitname" ?: "Wait" }}
+    waitTime:  {{ var "waitTime" ?: 10 }}
+    type: wait

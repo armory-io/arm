@@ -2,15 +2,16 @@ package cmd
 
 import (
 	"fmt"
+	log2 "github.com/armory/dinghy/pkg/log"
 	"github.com/sirupsen/logrus"
 	"os"
 
+	"encoding/json"
+	"errors"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"strings"
 	"net/http"
-	"errors"
-	"encoding/json"
+	"strings"
 )
 
 
@@ -75,7 +76,8 @@ func checkVersion() (error, string){
 
 }
 
-func initLog() *logrus.Logger {
+func initLog() *log2.DinghyLogs {
+
 	log = logrus.New()
 	var level logrus.Level
 	level, err := logrus.ParseLevel(LogLevel)
@@ -84,13 +86,19 @@ func initLog() *logrus.Logger {
 	}
 	log.SetLevel(level)
 
+	log.WithField("arm-cli-test", "")
 	customFormatter := new(logrus.TextFormatter)
 	customFormatter.TimestampFormat = "2006-01-02 15:04:05"
 	logrus.SetFormatter(customFormatter)
 	customFormatter.FullTimestamp = true
 	log.SetFormatter(customFormatter)
 
-	return log
+	return &log2.DinghyLogs{Logs: map[string]log2.DinghyLogStruct{
+		log2.SystemLogKey: {
+			Logger:         log,
+			LogEventBuffer: nil,
+		},
+	}}
 }
 
 

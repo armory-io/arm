@@ -1,0 +1,13 @@
+application: conditionals
+pipelines:
+- application: conditionals
+  name: my-pipeline-name
+  stages:
+  - type: wait
+    {{ if eq "Samtribal" "Samtribal" }}
+    name: this_is_true
+    {{ else }}
+    name: this_is_false
+    {{ end }}
+    waitTime: 10
+    
