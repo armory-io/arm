@@ -3,9 +3,8 @@ module github.com/armory-io/arm
 go 1.12
 
 require (
-	github.com/armory-io/dinghy v0.1.0-rc.4.0.20201210184329-429b816dcd60
-	github.com/armory/dinghy v1.0.2-0.20201119191104-9d6d132d26eb
-	github.com/armory/plank v1.3.0 // indirect
+	github.com/armory-io/dinghy v0.1.0-rc.4.0.20201214194545-f953ea20b252
+	github.com/armory/dinghy v1.0.2-0.20201205080047-e34f13783b67
 	github.com/armory/plank/v3 v3.4.3
 	github.com/aws/aws-sdk-go v1.30.15 // indirect
 	github.com/frankban/quicktest v1.7.2 // indirect
@@ -26,7 +25,6 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.6.3
 	github.com/stretchr/objx v0.2.0 // indirect
-	github.com/xanzy/go-gitlab v0.23.0 // indirect
 	golang.org/x/crypto v0.0.0-20200427165652-729f1e841bcc // indirect
 	golang.org/x/net v0.0.0-20200425230154-ff2c4b7c35a0 // indirect
 	golang.org/x/time v0.0.0-20200416051211-89c76fbcd5d1 // indirect

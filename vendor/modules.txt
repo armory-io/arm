@@ -10,9 +10,9 @@ cloud.google.com/go/internal/version
 cloud.google.com/go/storage
 # github.com/BurntSushi/toml v0.3.1
 github.com/BurntSushi/toml
-# github.com/armory-io/dinghy v0.1.0-rc.4.0.20201210184329-429b816dcd60
+# github.com/armory-io/dinghy v0.1.0-rc.4.0.20201214194545-f953ea20b252
 github.com/armory-io/dinghy/pkg/parsers/yaml
-# github.com/armory/dinghy v1.0.2-0.20201119191104-9d6d132d26eb
+# github.com/armory/dinghy v1.0.2-0.20201205080047-e34f13783b67
 github.com/armory/dinghy/pkg/cache
 github.com/armory/dinghy/pkg/dinghyfile
 github.com/armory/dinghy/pkg/dinghyfile/pipebuilder
