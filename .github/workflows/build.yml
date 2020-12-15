@@ -30,6 +30,9 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Build
+      run: go get github.com/armory-io/dinghy/pkg/parsers/yaml@master
+
+    - name: Build
       run: go build -v .
 
     - name: Test
