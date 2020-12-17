@@ -7,6 +7,7 @@ Armory CLI or better know as `arm cli` is a tool that let you render dinghyfiles
   - [Docker Image](#docker-image)
   - [Arm installation](#arm-installation)
       - [Mac OS](#mac-os)
+  - [IntelliJ Integration](#intellij-integration)
   - [Usage](#usage)
       - [Example](#example)
 
@@ -129,19 +130,36 @@ The CLI will run against the open dinghyfile being edited.
 ## Usage
 Both the Dinghyfile and module repo must be available locally, there is an example folder build in the release zip file. For each file the command would be a little different depending if they use modules(other templating files) or rawdata (git push information). You can execute `dinghy render --help` anytime to get current supported parameters.
 
-Example files:
+JSON Example files:
 
 | Filename                                    | Module             | RawData            | Local Module       | Parameters                                                                                                                      |
 |---------------------------------------------|--------------------|--------------------|--------------------|---------------------------------------------------------------------------------------------------------------------------------|
-| dinghyfile_basic                            | :x:                | :x:                | :x:                | dinghy render ./examples/dinghyfile_basic                                                                                       |
-| dinghyfile_rawdata                          | :x:                | :white_check_mark: | :x:                | dinghy render ./examples/dinghyfile_rawdata --rawdata ./examples/RawData.json                                                   |
-| dinghyfile_conditionals                     | :x:                | :x:                | :x:                | dinghy render ./examples/dinghyfile_conditionals                                                                                |
-| dinghyfile_globals                          | :white_check_mark: | :x:                | :x:                | dinghy render ./examples/dinghyfile_globals --modules ./examples/modules                                                        |
-| dinghyfile_makeSlice                        | :white_check_mark: | :x:                | :x:                | dinghy render ./examples/dinghyfile_makeSlice --modules ./examples/modules                                                      |
-| dinghyfile_makeSlice_conditional_rawdata    | :white_check_mark: | :white_check_mark: | :x:                | dinghy render ./examples/dinghyfile_makeSlice_conditional_rawdata --modules ./examples/modules --rawdata ./examples/RawData.json|
-| dinghyfile_localmodule                      | :white_check_mark: | :x:                | :x:                | dinghy render ./examples/dinghyfile_localmodule --modules ./examples/modules                                                    |
-| dinghyfile_pipelineID                       | :x:                | :x:                | :x:                | dinghy render ./examples/dinghyfile_pipelineID                                                                                  |
-| dinghyfile_localmodule_parameter            | :white_check_mark: | :x:                | :white_check_mark: | dinghy render ./examples/dinghyfile_localmodule_parameter --modules ./examples/modules --local_modules ./                       |
+| dinghyfile_basic                            | :x:                | :x:                | :x:                | dinghy render ./examples/json/dinghyfile_basic                                                                                       |
+| dinghyfile_rawdata                          | :x:                | :white_check_mark: | :x:                | dinghy render ./examples/json/dinghyfile_rawdata --rawdata ./examples/RawData.json                                                   |
+| dinghyfile_conditionals                     | :x:                | :x:                | :x:                | dinghy render ./examples/json/dinghyfile_conditionals                                                                                |
+| dinghyfile_globals                          | :white_check_mark: | :x:                | :x:                | dinghy render ./examples/json/dinghyfile_globals --modules ./examples/json/modules                                                        |
+| dinghyfile_makeSlice                        | :white_check_mark: | :x:                | :x:                | dinghy render ./examples/json/dinghyfile_makeSlice --modules ./examples/json/modules                                                      |
+| dinghyfile_makeSlice_conditional_rawdata    | :white_check_mark: | :white_check_mark: | :x:                | dinghy render ./examples/json/dinghyfile_makeSlice_conditional_rawdata --modules ./examples/json/modules --rawdata ./examples/RawData.json|
+| dinghyfile_localmodule                      | :white_check_mark: | :x:                | :x:                | dinghy render ./examples/json/dinghyfile_localmodule --modules ./examples/json/modules                                                    |
+| dinghyfile_pipelineID                       | :x:                | :x:                | :x:                | dinghy render ./examples/json/dinghyfile_pipelineID                                                                                  |
+| dinghyfile_localmodule_parameter            | :white_check_mark: | :x:                | :white_check_mark: | dinghy render ./examples/json/dinghyfile_localmodule_parameter --modules ./examples/json/modules --local_modules ./                       |
+
+
+YAML Example files:
+
+| Filename                                    | Module             | RawData            | Local Module       | Parameters                                                                                                                      |
+|---------------------------------------------|--------------------|--------------------|--------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| dinghyfile_basic                            | :x:                | :x:                | :x:                | dinghy render ./examples/yaml/dinghyfile_basic --type yaml                                                                                       |
+| dinghyfile_rawdata                          | :x:                | :white_check_mark: | :x:                | dinghy render ./examples/yaml/dinghyfile_rawdata --rawdata ./examples/RawData.json --type yaml                                                  |
+| dinghyfile_conditionals                     | :x:                | :x:                | :x:                | dinghy render ./examples/yaml/dinghyfile_conditionals --type yaml                                                                               |
+| dinghyfile_globals                          | :white_check_mark: | :x:                | :x:                | dinghy render ./examples/yaml/dinghyfile_globals --modules ./examples/yaml/modules --type yaml                                                        |
+| dinghyfile_makeSlice                        | :white_check_mark: | :x:                | :x:                | dinghy render ./examples/yaml/dinghyfile_makeSlice --modules ./examples/yaml/modules --type yaml                                                      |
+| dinghyfile_makeSlice_conditional_rawdata    | :white_check_mark: | :white_check_mark: | :x:                | dinghy render ./examples/yaml/dinghyfile_makeSlice_conditional_rawdata --modules ./examples/yaml/modules --rawdata ./examples/RawData.json --type yaml|
+| dinghyfile_localmodule                      | :white_check_mark: | :x:                | :x:                | dinghy render ./examples/yaml/dinghyfile_localmodule --modules ./examples/yaml/modules --type yaml                                                   |
+| dinghyfile_pipelineID                       | :x:                | :x:                | :x:                | dinghy render ./examples/yaml/dinghyfile_pipelineID --type yaml                                                                                  |
+| dinghyfile_localmodule_parameter            | :white_check_mark: | :x:                | :white_check_mark: | dinghy render ./examples/yaml/dinghyfile_localmodule_parameter --modules ./examples/yaml/modules --local_modules ./ --type yaml                       |
+
+
 
 #### Example
 ```bash

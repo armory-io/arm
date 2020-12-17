@@ -3,28 +3,22 @@ module github.com/armory-io/arm
 go 1.12
 
 require (
-	cloud.google.com/go v0.56.0 // indirect
-	github.com/armory/dinghy v1.0.2-0.20200818184728-f0334a70e7dd
-	github.com/armory/plank/v3 v3.4.1
+	github.com/armory-io/dinghy v0.1.0-rc.4.0.20201217181930-4e26199e6b7a
+	github.com/armory/dinghy v1.0.2-0.20201205080047-e34f13783b67
+	github.com/armory/plank/v3 v3.4.3
 	github.com/aws/aws-sdk-go v1.30.15 // indirect
 	github.com/frankban/quicktest v1.7.2 // indirect
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
-	github.com/go-redis/redis v6.15.7+incompatible // indirect
 	github.com/go-test/deep v1.0.2 // indirect
-	github.com/hashicorp/go-multierror v1.1.0 // indirect
 	github.com/hashicorp/go-retryablehttp v0.6.6 // indirect
-	github.com/hashicorp/go-rootcerts v1.0.2 // indirect
 	github.com/hashicorp/vault/api v1.0.5-0.20200317185738-82f498082f02 // indirect
 	github.com/hashicorp/vault/sdk v0.1.14-0.20200406173424-43a93d4a43b1 // indirect
 	github.com/imdario/mergo v0.3.9 // indirect
-	github.com/jinzhu/copier v0.0.0-20190924061706-b57f9002281a // indirect
-	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
 	github.com/magiconair/properties v1.8.1
 	github.com/mitchellh/mapstructure v1.2.3 // indirect
 	github.com/pelletier/go-toml v1.7.0 // indirect
 	github.com/pierrec/lz4 v2.5.2+incompatible // indirect
 	github.com/sirupsen/logrus v1.5.0
-	github.com/spf13/afero v1.2.2 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
 	github.com/spf13/cobra v1.0.0
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
@@ -41,4 +35,5 @@ require (
 	google.golang.org/grpc v1.29.1 // indirect
 	gopkg.in/ini.v1 v1.55.0 // indirect
 	gopkg.in/square/go-jose.v2 v2.5.0 // indirect
+	gopkg.in/yaml.v2 v2.2.8
 )

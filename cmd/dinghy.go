@@ -6,13 +6,16 @@ import (
 	"errors"
 	"fmt"
 	"github.com/armory-io/arm/pkg"
+	dinghy_yaml "github.com/armory-io/dinghy/pkg/parsers/yaml"
 	"github.com/armory/dinghy/pkg/cache"
 	"github.com/armory/dinghy/pkg/dinghyfile"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 // dinghyCmd represents the dinghy command
@@ -55,7 +58,8 @@ func init() {
 	renderCmd.Flags().String("local_modules", "", "local path to the dinghy local_module repository, if not specified local_module will be base path from dinghyfile")
 	renderCmd.Flags().String("modules", "", "local path to the dinghy modules repository")
 	renderCmd.Flags().String("rawdata", "", "optional rawdata json in case is needed")
-	renderCmd.Flags().String("output", "", "output json rendered as it will be rendered by dinghy")
+	renderCmd.Flags().String("output", "", "output document rendered as it will be rendered by dinghy")
+	renderCmd.Flags().String("type", "", "type of document to be rendered, supported types are: ['json','yaml']. Default value: json")
 	dinghyCmd.AddCommand(renderCmd)
 	rootCmd.AddCommand(dinghyCmd)
 	viper.BindPFlags(renderCmd.Flags())
@@ -96,17 +100,32 @@ func dinghyRender(args []string) (string, error) {
 		DinghyfileName: fileName,
 	}
 
+	viper.SetDefault("type", "json")
+	docType := viper.GetString("type")
+
+	var unmarshaller dinghyfile.Unmarshaller
+	var parser dinghyfile.Parser
+	if docType == "json" {
+		unmarshaller = &dinghyfile.DinghyJsonUnmarshaller{}
+		parser = &dinghyfile.DinghyfileParser{}
+	} else if docType == "yaml" {
+		unmarshaller = &dinghy_yaml.DinghyYaml{}
+		parser = &dinghy_yaml.DinghyfileYamlParser{}
+	} else {
+		log.Fatal(fmt.Sprintf("Invalid document type: %v", docType))
+	}
+
 	builder := &dinghyfile.PipelineBuilder{
 		Downloader:      downloader,
 		Depman:          cache.NewMemoryCache(),
 		TemplateRepo:    viper.GetString("modules"),
 		TemplateOrg:     "templateOrg",
-		Logger:          log.WithField("arm-cli-test", ""),
+		Logger:          log,
 		Client:          PlankMock{},
 		EventClient:     &dinghyfile.EventsTestClient{},
-		Parser:          &dinghyfile.DinghyfileParser{},
+		Parser:          parser,
 		DinghyfileName:  fileName,
-		Ums:             []dinghyfile.Unmarshaller{&dinghyfile.DinghyJsonUnmarshaller{}},
+		Ums:             []dinghyfile.Unmarshaller{unmarshaller},
 	}
 
 	//Process rawData and add it to the builder
@@ -133,45 +152,78 @@ func dinghyRender(args []string) (string, error) {
 		log.Errorf("Parsing dinghyfile failed: %s", err )
 		return "", fmt.Errorf("Parsing dinghyfile failed: %s", err )
 	} else {
-
 		log.Info("Parsed dinghyfile")
+		
+		isValid, errval := validateType(docType, out.Bytes())
+		if errval != nil {
+			log.Error(fmt.Sprintf("Validation for %v failed: %v", docType, errval))
+		}
 
-		if !json.Valid(out.Bytes()){
+		if !isValid {
 			log.Info("Output:\n")
 			fmt.Println(out.String())
-			log.Error("The result is not a valid JSON Object, please fix your dinghyfile")
-			return "", errors.New(("The result is not a valid JSON Object, please fix your dinghyfile"))
-		} else {
-			log.Info("Parsing final dinghyfile to struct for validation")
-			d, err := dinghyfileStruct(builder, out)
-			if err != nil {
-				log.Errorf("Parsing to struct failed: %v", err)
-				return "", fmt.Errorf("Parsing to struct failed: %v", err)
-			}
-
-			errValidation := builder.ValidatePipelines(d, out.Bytes())
-			if errValidation != nil {
-				log.Errorf("Final Dinghyfile failed validations, please correct them and retry. %v", errValidation)
-				return "", fmt.Errorf("Final Dinghyfile failed validations, please correct them and retry. %v", errValidation)
-			}
-
-			errValidation = builder.ValidateAppNotifications(d, out.Bytes())
-			if errValidation != nil {
-				log.Errorf("Final Dinghyfile failed application notification validations, please correct them and retry. %v", errValidation)
-				return "", fmt.Errorf("Final Dinghyfile failed application notification validations, please correct them and retry. %v", errValidation)
-			}
-
-			//Save file if output exists
-			//Log output
-			var outIndent bytes.Buffer
-			json.Indent(&outIndent, out.Bytes(), "", "  ")
-			saveOutputFile(viper.GetString("output"), outIndent)
-			log.Info("Output:\n")
-			fmt.Println(outIndent.String())
-			log.Info("Final dinghyfile is a valid JSON Object.")
-
-			return outIndent.String(), nil
+			errorMsg := fmt.Sprintf("The result is not a valid %v Object, please fix your dinghyfile", strings.ToUpper(docType))
+			log.Error(errorMsg)
+			return "", errors.New(errorMsg)
 		}
+
+		log.Info("Parsing final dinghyfile to struct for validation")
+		d, err := dinghyfileStruct(builder, out)
+		if err != nil {
+			log.Errorf("Parsing to struct failed: %v", err)
+			return "", fmt.Errorf("Parsing to struct failed: %v", err)
+		}
+
+		errValidation := builder.ValidatePipelines(d, out.Bytes())
+		if errValidation != nil {
+			log.Errorf("Final Dinghyfile failed validations, please correct them and retry. %v", errValidation)
+			return "", fmt.Errorf("Final Dinghyfile failed validations, please correct them and retry. %v", errValidation)
+		}
+
+		errValidation = builder.ValidateAppNotifications(d, out.Bytes())
+		if errValidation != nil {
+			log.Errorf("Final Dinghyfile failed application notification validations, please correct them and retry. %v", errValidation)
+			return "", fmt.Errorf("Final Dinghyfile failed application notification validations, please correct them and retry. %v", errValidation)
+		}
+
+		//Save file if output exists
+		//Log output
+		outIndent := indentType(docType, out.Bytes())
+		buff:=bytes.NewBuffer(outIndent)
+		saveOutputFile(viper.GetString("output"), buff)
+		log.Info("Output:\n")
+		fmt.Println(buff.String())
+		log.Info(fmt.Sprintf("Final dinghyfile is a valid %v Object.", strings.ToUpper(docType)))
+
+		return buff.String(), nil
+
+	}
+	return "", nil
+}
+
+func indentType(docType string, i []byte) []byte {
+	switch  docType {
+	case "json":
+		var outIndent bytes.Buffer
+		json.Indent(&outIndent, i, "", "  ")
+		return outIndent.Bytes()
+	}
+	return i
+}
+
+func validateType(docType string, i []byte) (bool, error) {
+	switch  docType {
+	case "json":
+		return json.Valid(i), nil
+	case "yaml":
+		var validate map[string]interface{}
+		erryaml := yaml.Unmarshal(i, &validate)
+		if erryaml != nil {
+			return false, erryaml
+		}
+		return true, nil
+	default:
+		return false, errors.New(fmt.Sprintf("Invalid docType: %v", docType))
 	}
 }
 
@@ -191,7 +243,7 @@ func dinghyfileStruct(builder *dinghyfile.PipelineBuilder, out *bytes.Buffer) (d
 	return d, err
 }
 
-func saveOutputFile(outputPath string, content bytes.Buffer) {
+func saveOutputFile(outputPath string, content *bytes.Buffer) {
 	if outputPath != "" {
 		log.Info("Saving output file")
 		err := ioutil.WriteFile(outputPath, content.Bytes(), 0644)
