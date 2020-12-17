@@ -154,7 +154,10 @@ func dinghyRender(args []string) (string, error) {
 	} else {
 		log.Info("Parsed dinghyfile")
 		
-		isValid := validateType(docType, out.Bytes())
+		isValid, errval := validateType(docType, out.Bytes())
+		if errval != nil {
+			log.Error(fmt.Sprintf("Validation for %v failed: %v", docType, errval))
+		}
 
 		if !isValid {
 			log.Info("Output:\n")
@@ -208,22 +211,20 @@ func indentType(docType string, i []byte) []byte {
 	return i
 }
 
-func validateType(docType string, i []byte) bool {
+func validateType(docType string, i []byte) (bool, error) {
 	switch  docType {
 	case "json":
-		return json.Valid(i)
+		return json.Valid(i), nil
 	case "yaml":
 		var validate map[string]interface{}
 		erryaml := yaml.Unmarshal(i, &validate)
 		if erryaml != nil {
-			fmt.Errorf("validation for %v failed: %v", docType, erryaml)
-			return false
+			return false, erryaml
 		}
-		return true
+		return true, nil
 	default:
-		fmt.Errorf("Invalid docType: %v", docType)
+		return false, errors.New(fmt.Sprintf("Invalid docType: %v", docType))
 	}
-	return false
 }
 
 func dinghyfileStruct(builder *dinghyfile.PipelineBuilder, out *bytes.Buffer) (dinghyfile.Dinghyfile, error) {
