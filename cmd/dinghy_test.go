@@ -320,10 +320,10 @@ pipelines:
 - application: global_vars
   name: Made By Armory Pipeline Templates
   stages:
-  - name": default-name
+  - name: default-name
     waitTime:  42
     type: wait
-  - name": overwrite-name
+  - name: overwrite-name
     waitTime:  100
     type: wait`,
 			nil,
@@ -337,15 +337,15 @@ pipelines:
   stages:
     
     
-  - name": First Wait
+  - name: First Wait
     waitTime:  10
     type: wait
     
-  - name": Second Wait
+  - name: Second Wait
     waitTime:  10
     type: wait
     
-  - name": Final Wait
+  - name: Final Wait
     waitTime:  10
     type: wait`,
 			nil,
@@ -378,7 +378,7 @@ pipelines:
   - name: localmodule overwrite-name
     waitTime:  100
     type: wait
-  - name": global module overwrite-name
+  - name: global module overwrite-name
     waitTime:  100
     type: wait
 `,
@@ -399,7 +399,7 @@ pipelines:
   - name: localmodule overwrite-name
     waitTime:  100
     type: wait
-  - name": global module overwrite-name
+  - name: global module overwrite-name
     waitTime:  100
     type: wait
 `,
