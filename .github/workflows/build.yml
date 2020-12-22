@@ -30,7 +30,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Build
-      run: go build -mod vendor -v .
+      run: go build -mod vendor -v main.go
 
     - name: Test
       run: go test -mod vendor -v -coverprofile=profile.cov ./...
