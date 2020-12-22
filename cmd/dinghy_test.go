@@ -426,6 +426,50 @@ pipelines:
 `,
 			nil,
 		},
+		{ "TestDictRange" , args{[]string{"../examples/yaml/dinghyfile_dict_range"}}, map[string]string{"modules": "../examples/yaml/modules", "type": "yaml"},
+			`application: dictrangeexample
+pipelines:
+- name: Loop Example
+  application: dictrangeexample
+  stages:
+
+
+
+
+  - name: dev
+    waitTime:  10
+    type: wait
+
+  - name: qa
+    waitTime:  20
+    type: wait
+
+`,
+			nil,
+		},
+		{ "TestListRange" , args{[]string{"../examples/yaml/dinghyfile_list_range"}}, map[string]string{"modules": "../examples/yaml/modules", "rawdata": "../examples/RawData.json", "type": "yaml"},
+			`application: listrangeexample
+pipelines:
+- name: Loop Example
+  application: listrangeexample
+  stages:
+
+
+
+
+  - name: dev
+    waitTime:  10
+    type: wait
+
+  - name: qa
+    waitTime:  20
+    type: wait
+
+
+
+`,
+			nil,
+		},
 	}
 
 	for _, tt := range tests {
