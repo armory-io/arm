@@ -31,11 +31,11 @@ jobs:
 
     - name: Build
       run: |
-           GOOS=windows GOARCH=amd64 go build -o arm-${{ steps.get_version.outputs.VERSION }}-windows-amd64.exe main.go -mod vendor
+           GOOS=windows GOARCH=amd64 go build -mod vendor -o arm-${{ steps.get_version.outputs.VERSION }}-windows-amd64.exe main.go
            zip -r arm-${{ steps.get_version.outputs.VERSION }}-windows-amd64.zip ./examples arm-${{ steps.get_version.outputs.VERSION }}-windows-amd64.exe ./docs README.md
-           GOOS=linux GOARCH=amd64 go build -o arm-${{ steps.get_version.outputs.VERSION }}-linux-amd64 main.go -mod vendor
+           GOOS=linux GOARCH=amd64 go build -mod vendor -o arm-${{ steps.get_version.outputs.VERSION }}-linux-amd64 main.go
            zip -r arm-${{ steps.get_version.outputs.VERSION }}-linux-amd64.zip ./examples arm-${{ steps.get_version.outputs.VERSION }}-linux-amd64 ./docs README.md
-           GOOS=darwin GOARCH=amd64 go build -o arm-${{ steps.get_version.outputs.VERSION }}-darwin-amd64 main.go -mod vendor
+           GOOS=darwin GOARCH=amd64 go build -mod vendor -o arm-${{ steps.get_version.outputs.VERSION }}-darwin-amd64 main.go
            zip -r arm-${{ steps.get_version.outputs.VERSION }}-darwin-amd64.zip ./examples arm-${{ steps.get_version.outputs.VERSION }}-darwin-amd64 ./docs README.md
 
     - name: Create Release
