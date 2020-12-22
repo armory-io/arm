@@ -13,5 +13,3 @@ coveragereport.txt
 # Ignore Gradle build output directory
 build
 
-# Ignore armory-io project so it bypass nebula validation
-vendor/github.com/armory-io/

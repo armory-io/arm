@@ -1,17 +1,25 @@
 {
-  "application": "makeSlice",
+  "application": "listrangeexample",
   "pipelines": [
     {
       "name": "Loop Example",
-      "application": "makeSlice",
+      "application": "listrangeexample",
       "stages": [
-        {{ $list1 := list "aa" "bb" }}
-        {{ $list2 := list "cc" "dd" }}
-        {{ $list3 := list $list1 $list2 }}
-        {{ range $list3 }}
-        { "test" :  {{ index . 1 }},},
+        {{ $listdev := list "10" "dev" }}
+        {{ $listqa := list "20" "qa" }}
+        {{ $myenvs := list $listdev $listqa }}
+        {{ $count := 1 }}
+        {{ range $myenvs }}
+            {
+                "type": "wait",
+                "waitTime" :  {{ index . 0  | toJson }},
+                "name" :  {{ index . 1  | toJson }}
+            }
+            {{ if ne $count (len $myenvs) }}
+                {{ $count = add $count 1 }}
+                ,
+            {{ end }}
         {{ end }}
-        {}
       ]
     }
   ]

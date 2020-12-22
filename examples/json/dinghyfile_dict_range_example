@@ -1,0 +1,26 @@
+{
+  "application": "maprangeexample",
+  "pipelines": [
+    {
+      "name": "Loop Example",
+      "application": "maprangeexample",
+      "stages": [
+        {{ $dictdev := dict "waitTime" "10" "name" "dev" }}
+        {{ $dictqa := dict "waitTime" "20" "name" "qa" }}
+        {{ $myenvs := list $dictdev $dictqa }}
+        {{ $count := 1 }}
+        {{ range $myenvs }}
+            {
+                "type": "wait",
+                "waitTime" :  {{ get . "waitTime"  | toJson }},
+                "name" :  {{ get . "name"  | toJson }}
+            }
+            {{ if ne $count (len $myenvs) }}
+                {{ $count = add $count 1 }}
+                ,
+            {{ end }}
+        {{ end }}
+      ]
+    }
+  ]
+}
