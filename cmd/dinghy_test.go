@@ -235,6 +235,54 @@ nil,
 }`,
 			nil,
 		},
+		{ "TestDictRange" , args{[]string{"../examples/json/dinghyfile_dict_range"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json"},
+			`{
+  "application": "maprangeexample",
+  "pipelines": [
+    {
+      "name": "Loop Example",
+      "application": "maprangeexample",
+      "stages": [
+        {
+          "name": "dev",
+          "waitTime": "10",
+          "type": "wait"
+        },
+        {
+          "name": "qa",
+          "waitTime": "20",
+          "type": "wait"
+        }
+      ]
+    }
+  ]
+}`,
+			nil,
+		},
+		{ "TestListRange" , args{[]string{"../examples/json/dinghyfile_list_range"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json"},
+			`{
+  "application": "listrangeexample",
+  "pipelines": [
+    {
+      "name": "Loop Example",
+      "application": "listrangeexample",
+      "stages": [
+        {
+          "name": "dev",
+          "waitTime": "10",
+          "type": "wait"
+        },
+        {
+          "name": "qa",
+          "waitTime": "20",
+          "type": "wait"
+        }
+      ]
+    }
+  ]
+}`,
+			nil,
+		},
 	}
 
 	for _, tt := range tests {
@@ -256,8 +304,8 @@ nil,
 				if got != "" {
 					var gotBuffer bytes.Buffer
 					var wantBuffer bytes.Buffer
-					json.Indent(&gotBuffer, []byte(got), "", "  ")
-					json.Indent(&wantBuffer, []byte(tt.want), "", "  ")
+					json.Indent(&gotBuffer, []byte(strings.TrimSpace(got)), "", "  ")
+					json.Indent(&wantBuffer, []byte(strings.TrimSpace(tt.want)), "", "  ")
 					if gotBuffer.String() != wantBuffer.String() {
 						t.Errorf("dinghyRender() = %v, want %v", got, tt.want)
 						t.Fail()
