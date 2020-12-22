@@ -21,6 +21,14 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
+      - name: Download private dependencies
+        run: |
+          git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+          go get github.com/armory-io/dinghy/pkg/parsers/yaml@master
+          go mod vendor
+        env:
+          GITHUB_TOKEN: ${{ secrets.ARMORYIO_GITHUB_TOKEN }}
+
       - name: Fetch full history
         run: git fetch --prune --tags --unshallow
 
