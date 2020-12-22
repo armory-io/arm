@@ -7,7 +7,5 @@ pipelines:
 {{ $dictqa := dict "waitTime" "20" "name" "qa" }}
 {{ $myenvs := list $dictdev $dictqa }}
 {{ range $myenvs }}
-  - waitTime: {{ get . "waitTime" }}
-    name: {{ get . "name" }}
-    type: wait
+{{ module "stage.minimal.wait.module" "waitname" (  get . "name" ) "waitTime" (  get . "waitTime") }}
 {{ end }}

@@ -7,7 +7,5 @@ pipelines:
 {{ $listqa := list "20" "qa" }}
 {{ $myenvs := list $listdev $listqa }}
 {{ range $myenvs }}
-  - waitTime: {{ index . 0 }}
-    name: {{ index . 1}}
-    type: wait
+{{ module "stage.minimal.wait.module" "waitname" ( index . 1 ) "waitTime" ( index . 0 ) }}
 {{ end }}

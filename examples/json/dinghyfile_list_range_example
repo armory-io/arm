@@ -10,11 +10,7 @@
         {{ $myenvs := list $listdev $listqa }}
         {{ $count := 1 }}
         {{ range $myenvs }}
-            {
-                "type": "wait",
-                "waitTime" :  {{ index . 0  | toJson }},
-                "name" :  {{ index . 1  | toJson }}
-            }
+            {{ module "stage.minimal.wait.module" "waitname"  ( index . 1  ) "waitTime" ( index . 0  ) }}
             {{ if ne $count (len $myenvs) }}
                 {{ $count = add $count 1 }}
                 ,

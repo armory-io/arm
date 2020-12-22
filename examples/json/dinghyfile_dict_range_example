@@ -10,11 +10,7 @@
         {{ $myenvs := list $dictdev $dictqa }}
         {{ $count := 1 }}
         {{ range $myenvs }}
-            {
-                "type": "wait",
-                "waitTime" :  {{ get . "waitTime"  | toJson }},
-                "name" :  {{ get . "name"  | toJson }}
-            }
+            {{ module "stage.minimal.wait.module" "waitname"  ( get . "name" ) "waitTime" ( get . "waitTime" ) }}
             {{ if ne $count (len $myenvs) }}
                 {{ $count = add $count 1 }}
                 ,
