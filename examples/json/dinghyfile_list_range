@@ -1,0 +1,22 @@
+{
+  "application": "listrangeexample",
+  "pipelines": [
+    {
+      "name": "Loop Example",
+      "application": "listrangeexample",
+      "stages": [
+        {{ $listdev := list "10" "dev" }}
+        {{ $listqa := list "20" "qa" }}
+        {{ $myenvs := list $listdev $listqa }}
+        {{ $count := 1 }}
+        {{ range $myenvs }}
+            {{ module "stage.minimal.wait.module" "waitname"  ( index . 1  ) "waitTime" ( index . 0  ) }}
+            {{ if ne $count (len $myenvs) }}
+                {{ $count = add $count 1 }}
+                ,
+            {{ end }}
+        {{ end }}
+      ]
+    }
+  ]
+}

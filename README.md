@@ -143,6 +143,8 @@ JSON Example files:
 | dinghyfile_localmodule                      | :white_check_mark: | :x:                | :x:                | dinghy render ./examples/json/dinghyfile_localmodule --modules ./examples/json/modules                                                    |
 | dinghyfile_pipelineID                       | :x:                | :x:                | :x:                | dinghy render ./examples/json/dinghyfile_pipelineID                                                                                  |
 | dinghyfile_localmodule_parameter            | :white_check_mark: | :x:                | :white_check_mark: | dinghy render ./examples/json/dinghyfile_localmodule_parameter --modules ./examples/json/modules --local_modules ./                       |
+| dinghyfile_dict_range                       | :white_check_mark: | :x:                | :x:                | dinghy render ./examples/json/dinghyfile_dict_range --modules ./examples/json/modules                        |
+| dinghyfile_list_range                       | :white_check_mark: | :x:                | :x:                | dinghy render ./examples/json/dinghyfile_list_range --modules ./examples/json/modules                        |
 
 
 YAML Example files:
@@ -158,7 +160,8 @@ YAML Example files:
 | dinghyfile_localmodule                      | :white_check_mark: | :x:                | :x:                | dinghy render ./examples/yaml/dinghyfile_localmodule --modules ./examples/yaml/modules --type yaml                                                   |
 | dinghyfile_pipelineID                       | :x:                | :x:                | :x:                | dinghy render ./examples/yaml/dinghyfile_pipelineID --type yaml                                                                                  |
 | dinghyfile_localmodule_parameter            | :white_check_mark: | :x:                | :white_check_mark: | dinghy render ./examples/yaml/dinghyfile_localmodule_parameter --modules ./examples/yaml/modules --local_modules ./ --type yaml                       |
-
+| dinghyfile_dict_range                       | :white_check_mark: | :x:                | :x:                | dinghy render ./examples/yaml/dinghyfile_dict_range --modules ./examples/yaml/modules --type yaml                       |
+| dinghyfile_list_range                       | :white_check_mark: | :x:                | :x:                | dinghy render ./examples/yaml/dinghyfile_list_range --modules ./examples/yaml/modules --type yaml                       |
 
 
 #### Example

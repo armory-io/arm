@@ -1,0 +1,11 @@
+application: listrangeexample
+pipelines:
+- name: Loop Example
+  application: listrangeexample
+  stages:
+{{ $listdev := list "10" "dev" }}
+{{ $listqa := list "20" "qa" }}
+{{ $myenvs := list $listdev $listqa }}
+{{ range $myenvs }}
+{{ module "stage.minimal.wait.module" "waitname" ( index . 1 ) "waitTime" ( index . 0 ) }}
+{{ end }}

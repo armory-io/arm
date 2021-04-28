@@ -1,0 +1,11 @@
+application: dictrangeexample
+pipelines:
+- name: Loop Example
+  application: dictrangeexample
+  stages:
+{{ $dictdev := dict "waitTime" "10" "name" "dev" }}
+{{ $dictqa := dict "waitTime" "20" "name" "qa" }}
+{{ $myenvs := list $dictdev $dictqa }}
+{{ range $myenvs }}
+{{ module "stage.minimal.wait.module" "waitname" (  get . "name" ) "waitTime" (  get . "waitTime") }}
+{{ end }}

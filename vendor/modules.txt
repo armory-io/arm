@@ -10,9 +10,15 @@ cloud.google.com/go/internal/version
 cloud.google.com/go/storage
 # github.com/BurntSushi/toml v0.3.1
 github.com/BurntSushi/toml
-# github.com/armory-io/dinghy v0.1.0-rc.4.0.20201217181930-4e26199e6b7a
+# github.com/Masterminds/goutils v1.1.0
+github.com/Masterminds/goutils
+# github.com/Masterminds/semver/v3 v3.1.0
+github.com/Masterminds/semver/v3
+# github.com/Masterminds/sprig/v3 v3.1.0
+github.com/Masterminds/sprig/v3
+# github.com/armory-io/dinghy v0.1.0-rc.4.0.20201221203039-e0a3719ce05a
 github.com/armory-io/dinghy/pkg/parsers/yaml
-# github.com/armory/dinghy v1.0.2-0.20201205080047-e34f13783b67
+# github.com/armory/dinghy v1.0.2-0.20201221191958-aa7825915052
 github.com/armory/dinghy/pkg/cache
 github.com/armory/dinghy/pkg/dinghyfile
 github.com/armory/dinghy/pkg/dinghyfile/pipebuilder
@@ -107,6 +113,8 @@ github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/timestamp
 # github.com/golang/snappy v0.0.1
 github.com/golang/snappy
+# github.com/google/uuid v1.1.1
+github.com/google/uuid
 # github.com/googleapis/gax-go/v2 v2.0.5
 github.com/googleapis/gax-go/v2
 # github.com/hashicorp/errwrap v1.0.0
@@ -141,6 +149,8 @@ github.com/hashicorp/vault/sdk/helper/hclutil
 github.com/hashicorp/vault/sdk/helper/jsonutil
 github.com/hashicorp/vault/sdk/helper/parseutil
 github.com/hashicorp/vault/sdk/helper/strutil
+# github.com/huandu/xstrings v1.3.1
+github.com/huandu/xstrings
 # github.com/imdario/mergo v0.3.9
 github.com/imdario/mergo
 # github.com/inconshreveable/mousetrap v1.0.0
@@ -158,10 +168,14 @@ github.com/konsorten/go-windows-terminal-sequences
 # github.com/magiconair/properties v1.8.1
 github.com/magiconair/properties
 github.com/magiconair/properties/assert
+# github.com/mitchellh/copystructure v1.0.0
+github.com/mitchellh/copystructure
 # github.com/mitchellh/go-homedir v1.1.0
 github.com/mitchellh/go-homedir
 # github.com/mitchellh/mapstructure v1.2.3
 github.com/mitchellh/mapstructure
+# github.com/mitchellh/reflectwalk v1.0.0
+github.com/mitchellh/reflectwalk
 # github.com/pelletier/go-toml v1.7.0
 github.com/pelletier/go-toml
 # github.com/pierrec/lz4 v2.5.2+incompatible
@@ -204,9 +218,12 @@ go.opencensus.io/trace/internal
 go.opencensus.io/trace/propagation
 go.opencensus.io/trace/tracestate
 # golang.org/x/crypto v0.0.0-20200427165652-729f1e841bcc
+golang.org/x/crypto/bcrypt
+golang.org/x/crypto/blowfish
 golang.org/x/crypto/ed25519
 golang.org/x/crypto/ed25519/internal/edwards25519
 golang.org/x/crypto/pbkdf2
+golang.org/x/crypto/scrypt
 # golang.org/x/lint v0.0.0-20200302205851-738671d3881b
 golang.org/x/lint
 golang.org/x/lint/golint
