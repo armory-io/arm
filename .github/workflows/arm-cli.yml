@@ -21,7 +21,7 @@ jobs:
       id: go
 
     - name: Cache Build Dependencies  # Speeds up subsquent builds
-      uses: actions/cache@v1
+      uses: actions/cache@v2
       with:
         path: ~/go/pkg/mod
         key: go-${{ hashFiles('**/go.sum') }}
@@ -29,13 +29,19 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
 
+    - name: Generate GH token
+      id: generated_gh_token
+      uses: tibdex/github-app-token@v1
+      with:
+        app_id: ${{ secrets.GH_APP_ID }}
+        private_key: ${{ secrets.GH_APP_KEY }}
     - name: Download private dependencies
-      run: |
-        git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
-        go get github.com/armory-io/dinghy/pkg/parsers/yaml@master
-        go mod vendor
       env:
-        GITHUB_TOKEN: ${{ secrets.ARMORYIO_GITHUB_TOKEN }}
+        GH_TOKEN: ${{ steps.generated_gh_token.outputs.token }}
+      run: |
+        git config --global url."https://${GH_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+        go get github.com/armory-io/dinghy/pkg/parsers/yaml@c501c12d4b0008ffb5361b2df88a629edf9b39ac
+        go mod vendor
 
     - name: Build
       run: |

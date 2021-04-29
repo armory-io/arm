@@ -10,9 +10,6 @@ jobs:
   main:
     env:
       BASE_PROJECT: arm-cli
-      GRGIT_USER: GitHub
-      GRGIT_PASS: ${{ secrets.GITHUB_TOKEN }}
-      JFROG_ARGS: --url https://armory.jfrog.io/armory/ --user ${{secrets.ARTIFACTORY_USER}} --password ${{secrets.ARTIFACTORY_PASSWORD}}
       GRADLE_ARGS: -Partifactory_user=${{secrets.ARTIFACTORY_USER}} -Partifactory_password=${{secrets.ARTIFACTORY_PASSWORD}} --info -x dockerClean -x dockerPrepare
     runs-on: ubuntu-latest
     steps:
@@ -22,13 +19,19 @@ jobs:
       - name: Fetch full history
         run: git fetch --prune --tags --unshallow
 
+      - name: Generate GH token
+        id: generated_gh_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.GH_APP_ID }}
+          private_key: ${{ secrets.GH_APP_KEY }}
       - name: Download private dependencies
-        run: |
-          git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
-          go get github.com/armory-io/dinghy/pkg/parsers/yaml@master
-          go mod vendor
         env:
-          GITHUB_TOKEN: ${{ secrets.ARMORYIO_GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.generated_gh_token.outputs.token }}
+        run: |
+          git config --global url."https://${GH_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+          go get github.com/armory-io/dinghy/pkg/parsers/yaml@c501c12d4b0008ffb5361b2df88a629edf9b39ac
+          go mod vendor
 
       - name: Set up JDK 1.11
         uses: actions/setup-java@v1
