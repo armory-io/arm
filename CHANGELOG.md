@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [0.0.4] - 2021-05-20
+### Changed
+- Updated the CLI output to reflect the fact that there are or could be more than 1 Armory platform CLI 
+
 ## [0.0.3] - 2020-04-4
 ### Added
 - `output` was added so final json can be saved.

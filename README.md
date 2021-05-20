@@ -21,7 +21,7 @@ docker run -it armory/arm-cli /bin/sh
 And then in shell you can just execute ``arm`` command.
 ```
 / # arm
-The Armory Platform CLI
+One of Many Armory Platform CLIs
 
 Usage:
   arm [command]
@@ -61,7 +61,7 @@ To use it just type arm in your console(if you added it to your path) or execute
 
 ```bash
 ➜  arm-1.0.0-osx-amd64 ./arm-1.0.0-darwin-amd64
-The Armory Platform CLI
+One of Many Armory Platform CLIs
 
 Usage:
   arm [command]

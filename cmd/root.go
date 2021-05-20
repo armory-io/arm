@@ -33,7 +33,7 @@ type VersionDesc struct {
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "arm",
-	Short: "The Armory Platform CLI",
+	Short: "One of Many Armory Platform CLIs",
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		if enableVersionCheck == ENABLE_FLAG {
 			if err, version := checkVersion(); err != nil {
