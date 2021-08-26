@@ -3,12 +3,11 @@ module github.com/armory-io/arm
 go 1.12
 
 require (
-	github.com/armory-io/dinghy v0.1.0-rc.4.0.20201221203039-e0a3719ce05a
-	github.com/armory/dinghy v1.0.2-0.20201221191958-aa7825915052
-	github.com/armory/plank/v3 v3.4.3
+	github.com/armory-io/dinghy v0.1.0-rc.4.0.20210824174139-890f5eb120a3
+	github.com/armory/dinghy v0.0.0-20210622181016-cf2557851cd4
+	github.com/armory/plank/v4 v4.0.0
 	github.com/aws/aws-sdk-go v1.30.15 // indirect
 	github.com/frankban/quicktest v1.7.2 // indirect
-	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/go-test/deep v1.0.2 // indirect
 	github.com/hashicorp/go-retryablehttp v0.6.6 // indirect
 	github.com/hashicorp/vault/api v1.0.5-0.20200317185738-82f498082f02 // indirect
@@ -24,10 +23,7 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.6.3
 	github.com/stretchr/objx v0.2.0 // indirect
-	golang.org/x/crypto v0.0.0-20200427165652-729f1e841bcc // indirect
-	golang.org/x/net v0.0.0-20200425230154-ff2c4b7c35a0 // indirect
 	golang.org/x/time v0.0.0-20200416051211-89c76fbcd5d1 // indirect
-	golang.org/x/tools v0.0.0-20200428211428-0c9eba77bc32 // indirect
 	google.golang.org/api v0.22.0 // indirect
 	google.golang.org/appengine v1.6.6 // indirect
 	google.golang.org/genproto v0.0.0-20200424135956-bca184e23272 // indirect
