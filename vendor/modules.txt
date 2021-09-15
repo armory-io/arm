@@ -16,9 +16,9 @@ github.com/Masterminds/goutils
 github.com/Masterminds/semver/v3
 # github.com/Masterminds/sprig/v3 v3.1.0
 github.com/Masterminds/sprig/v3
-# github.com/armory-io/dinghy v0.1.0-rc.4.0.20201221203039-e0a3719ce05a
+# github.com/armory-io/dinghy v0.1.0-rc.4.0.20210824174139-890f5eb120a3
 github.com/armory-io/dinghy/pkg/parsers/yaml
-# github.com/armory/dinghy v1.0.2-0.20201221191958-aa7825915052
+# github.com/armory/dinghy v0.0.0-20210622181016-cf2557851cd4
 github.com/armory/dinghy/pkg/cache
 github.com/armory/dinghy/pkg/dinghyfile
 github.com/armory/dinghy/pkg/dinghyfile/pipebuilder
@@ -28,17 +28,15 @@ github.com/armory/dinghy/pkg/log
 github.com/armory/dinghy/pkg/mock
 github.com/armory/dinghy/pkg/notifiers
 github.com/armory/dinghy/pkg/preprocessor
-github.com/armory/dinghy/pkg/settings
+github.com/armory/dinghy/pkg/settings/global
 github.com/armory/dinghy/pkg/util
-# github.com/armory/go-yaml-tools v0.0.0-20200603151141-b037d3988c49
+# github.com/armory/go-yaml-tools v0.0.2
 github.com/armory/go-yaml-tools/pkg/secrets
-github.com/armory/go-yaml-tools/pkg/spring
 github.com/armory/go-yaml-tools/pkg/tls
 github.com/armory/go-yaml-tools/pkg/tls/client
 github.com/armory/go-yaml-tools/pkg/tls/server
-github.com/armory/go-yaml-tools/pkg/yaml
-# github.com/armory/plank/v3 v3.4.3
-github.com/armory/plank/v3
+# github.com/armory/plank/v4 v4.0.0
+github.com/armory/plank/v4
 # github.com/aws/aws-sdk-go v1.30.15
 github.com/aws/aws-sdk-go/aws
 github.com/aws/aws-sdk-go/aws/arn
@@ -176,6 +174,8 @@ github.com/mitchellh/go-homedir
 github.com/mitchellh/mapstructure
 # github.com/mitchellh/reflectwalk v1.0.0
 github.com/mitchellh/reflectwalk
+# github.com/otiai10/copy v1.5.0
+github.com/otiai10/copy
 # github.com/pelletier/go-toml v1.7.0
 github.com/pelletier/go-toml
 # github.com/pierrec/lz4 v2.5.2+incompatible
@@ -217,7 +217,7 @@ go.opencensus.io/trace
 go.opencensus.io/trace/internal
 go.opencensus.io/trace/propagation
 go.opencensus.io/trace/tracestate
-# golang.org/x/crypto v0.0.0-20200427165652-729f1e841bcc
+# golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
 golang.org/x/crypto/bcrypt
 golang.org/x/crypto/blowfish
 golang.org/x/crypto/ed25519
@@ -227,10 +227,10 @@ golang.org/x/crypto/scrypt
 # golang.org/x/lint v0.0.0-20200302205851-738671d3881b
 golang.org/x/lint
 golang.org/x/lint/golint
-# golang.org/x/mod v0.2.0
+# golang.org/x/mod v0.4.2
 golang.org/x/mod/module
 golang.org/x/mod/semver
-# golang.org/x/net v0.0.0-20200425230154-ff2c4b7c35a0
+# golang.org/x/net v0.0.0-20201021035429-f5854403a974
 golang.org/x/net/context
 golang.org/x/net/context/ctxhttp
 golang.org/x/net/http/httpguts
@@ -245,17 +245,18 @@ golang.org/x/oauth2/google
 golang.org/x/oauth2/internal
 golang.org/x/oauth2/jws
 golang.org/x/oauth2/jwt
-# golang.org/x/sys v0.0.0-20200615200032-f1bc736245b1
+# golang.org/x/sys v0.0.0-20210315160823-c6e025ad8005
+golang.org/x/sys/execabs
 golang.org/x/sys/internal/unsafeheader
 golang.org/x/sys/unix
-# golang.org/x/text v0.3.2
+# golang.org/x/text v0.3.3
 golang.org/x/text/secure/bidirule
 golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
 # golang.org/x/time v0.0.0-20200416051211-89c76fbcd5d1
 golang.org/x/time/rate
-# golang.org/x/tools v0.0.0-20200428211428-0c9eba77bc32
+# golang.org/x/tools v0.1.0
 golang.org/x/tools/cmd/goimports
 golang.org/x/tools/go/analysis
 golang.org/x/tools/go/analysis/passes/inspect
@@ -279,8 +280,10 @@ golang.org/x/tools/internal/fastwalk
 golang.org/x/tools/internal/gocommand
 golang.org/x/tools/internal/gopathwalk
 golang.org/x/tools/internal/imports
+golang.org/x/tools/internal/lsp/fuzzy
 golang.org/x/tools/internal/packagesinternal
-# golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543
+golang.org/x/tools/internal/typesinternal
+# golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
 golang.org/x/xerrors
 golang.org/x/xerrors/internal
 # google.golang.org/api v0.22.0
