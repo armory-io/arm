@@ -16,7 +16,7 @@ github.com/Masterminds/goutils
 github.com/Masterminds/semver/v3
 # github.com/Masterminds/sprig/v3 v3.1.0
 github.com/Masterminds/sprig/v3
-# github.com/armory-io/dinghy v0.1.0-rc.4.0.20210824174139-890f5eb120a3
+# github.com/armory-io/dinghy v0.1.0-rc.4.0.20210909200842-9f3deb2352c2
 github.com/armory-io/dinghy/pkg/parsers/yaml
 # github.com/armory/dinghy v0.0.0-20210622181016-cf2557851cd4
 github.com/armory/dinghy/pkg/cache

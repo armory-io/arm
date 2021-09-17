@@ -3,7 +3,7 @@ module github.com/armory-io/arm
 go 1.12
 
 require (
-	github.com/armory-io/dinghy v0.1.0-rc.4.0.20210824174139-890f5eb120a3
+	github.com/armory-io/dinghy v0.1.0-rc.4.0.20210909200842-9f3deb2352c2
 	github.com/armory/dinghy v0.0.0-20210622181016-cf2557851cd4
 	github.com/armory/plank/v4 v4.0.0
 	github.com/aws/aws-sdk-go v1.30.15 // indirect
