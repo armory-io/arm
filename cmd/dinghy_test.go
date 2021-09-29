@@ -15,15 +15,15 @@ func Test_dinghyRender_JSON(t *testing.T) {
 		args []string
 	}
 	tests := []struct {
-		name     string
-		args     args
-		viper    map[string]string
-		want     string
+		name string
+		args args
+		viper map[string]string
+		want string
 		errorMsg error
 	}{
 		//Basic dinghy file
-		{"TestBasicDinghy", args{[]string{"../examples/json/dinghyfile_basic"}}, map[string]string{"modules": "../examples/json/modules"},
-			`{
+		{ "TestBasicDinghy" , args{[]string{"../examples/json/dinghyfile_basic"}}, map[string]string{"modules": "../examples/json/modules"},
+		`{
 				  "application": "helloworldapp",
 				  "pipelines": [
 					{
@@ -39,10 +39,10 @@ func Test_dinghyRender_JSON(t *testing.T) {
 					}
 				  ]
 				}`,
-			nil,
+				nil,
 		},
 
-		{"TestConditionalsDinghy", args{[]string{"../examples/json/dinghyfile_conditionals"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json"},
+		{ "TestConditionalsDinghy" , args{[]string{"../examples/json/dinghyfile_conditionals"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json"},
 			`{
   "application": "conditionals",
   "pipelines": [
@@ -59,10 +59,10 @@ func Test_dinghyRender_JSON(t *testing.T) {
     }
   ]
 }`,
-			nil,
+nil,
 		},
 
-		{"TestGlobalsDinghy", args{[]string{"../examples/json/dinghyfile_globals"}}, map[string]string{"modules": "../examples/json/modules"},
+		{ "TestGlobalsDinghy" , args{[]string{"../examples/json/dinghyfile_globals"}}, map[string]string{"modules": "../examples/json/modules"},
 			`{
   "application": "global_vars",
   "globals": {
@@ -88,10 +88,10 @@ func Test_dinghyRender_JSON(t *testing.T) {
     }
   ]
 }`,
-			nil,
+nil,
 		},
 
-		{"TestMakeSliceDinghy", args{[]string{"../examples/json/dinghyfile_makeSlice"}}, map[string]string{"modules": "../examples/json/modules"},
+		{ "TestMakeSliceDinghy" , args{[]string{"../examples/json/dinghyfile_makeSlice"}}, map[string]string{"modules": "../examples/json/modules"},
 			`{
   "application": "makeSlice",
   "pipelines": [
@@ -118,10 +118,10 @@ func Test_dinghyRender_JSON(t *testing.T) {
     }
   ]
 }`,
-			nil,
+nil,
 		},
 
-		{"TestRawDataDinghy", args{[]string{"../examples/json/dinghyfile_rawdata"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json"},
+		{ "TestRawDataDinghy" , args{[]string{"../examples/json/dinghyfile_rawdata"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json"},
 			`{
   "application": "rawdata",
   "pipelines": [
@@ -138,10 +138,43 @@ func Test_dinghyRender_JSON(t *testing.T) {
     }
   ]
 }`,
-			nil,
+nil,
 		},
 
-		{"TestLocalModulesDinghy", args{[]string{"../examples/json/dinghyfile_localmodule"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json"},
+		{ "TestLocalModulesDinghy" , args{[]string{"../examples/json/dinghyfile_localmodule"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json"},
+			`{
+  "application": "localmodules",
+  "globals": {
+    "waitTime": "42",
+    "waitname": "localmodule default-name"
+  },
+  "pipelines": [
+    {
+      "application": "localmodules",
+      "name": "Made By Armory Pipeline Templates",
+      "stages": [
+        {
+          "name": "localmodule default-name",
+          "waitTime": "42",
+          "type": "wait"
+        },
+        {
+          "name": "localmodule overwrite-name",
+          "waitTime": "100",
+          "type": "wait"
+        },
+        {
+          "name": "global module overwrite-name",
+          "waitTime": "100",
+          "type": "wait"
+        }
+      ]
+    }
+  ]
+}`,
+nil,
+		},
+		{ "TestLocalModulesWithParameter" , args{[]string{"../examples/json/dinghyfile_localmodule_parameter"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json", "local_modules" : "../examples/json/modules"},
 			`{
   "application": "localmodules",
   "globals": {
@@ -174,48 +207,15 @@ func Test_dinghyRender_JSON(t *testing.T) {
 }`,
 			nil,
 		},
-		{"TestLocalModulesWithParameter", args{[]string{"../examples/json/dinghyfile_localmodule_parameter"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json", "local_modules": "../examples/json/modules"},
-			`{
-  "application": "localmodules",
-  "globals": {
-    "waitTime": "42",
-    "waitname": "localmodule default-name"
-  },
-  "pipelines": [
-    {
-      "application": "localmodules",
-      "name": "Made By Armory Pipeline Templates",
-      "stages": [
-        {
-          "name": "localmodule default-name",
-          "waitTime": "42",
-          "type": "wait"
-        },
-        {
-          "name": "localmodule overwrite-name",
-          "waitTime": "100",
-          "type": "wait"
-        },
-        {
-          "name": "global module overwrite-name",
-          "waitTime": "100",
-          "type": "wait"
-        }
-      ]
-    }
-  ]
-}`,
-			nil,
-		},
-		{"TestValidatePipelines", args{[]string{"../test_dinghyfiles/TestValidatePipelines"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json"},
+		{ "TestValidatePipelines" , args{[]string{"../test_dinghyfiles/TestValidatePipelines"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json"},
 			``,
 			errors.New("Final Dinghyfile failed validations, please correct them and retry. mj2 refers to itself. Circular references are not supported"),
 		},
-		{"TestValidateAppNotifications", args{[]string{"../test_dinghyfiles/TestValidateAppNotifications"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json"},
+		{ "TestValidateAppNotifications" , args{[]string{"../test_dinghyfiles/TestValidateAppNotifications"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json"},
 			``,
 			errors.New("Final Dinghyfile failed application notification validations, please correct them and retry. application notifications format is invalid for email"),
 		},
-		{"TestPipelineID", args{[]string{"../examples/json/dinghyfile_pipelineID"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json"},
+		{ "TestPipelineID" , args{[]string{"../examples/json/dinghyfile_pipelineID"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json"},
 			`{
   "application": "pipelineidexample",
   "pipelines": [
@@ -235,7 +235,7 @@ func Test_dinghyRender_JSON(t *testing.T) {
 }`,
 			nil,
 		},
-		{"TestDictRange", args{[]string{"../examples/json/dinghyfile_dict_range"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json"},
+		{ "TestDictRange" , args{[]string{"../examples/json/dinghyfile_dict_range"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json"},
 			`{
   "application": "maprangeexample",
   "pipelines": [
@@ -259,7 +259,7 @@ func Test_dinghyRender_JSON(t *testing.T) {
 }`,
 			nil,
 		},
-		{"TestListRange", args{[]string{"../examples/json/dinghyfile_list_range"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json"},
+		{ "TestListRange" , args{[]string{"../examples/json/dinghyfile_list_range"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json"},
 			`{
   "application": "listrangeexample",
   "pipelines": [
@@ -297,7 +297,7 @@ func Test_dinghyRender_JSON(t *testing.T) {
 			if err != nil {
 				if tt.errorMsg != nil {
 					assert.Equal(t, tt.errorMsg, err)
-				} else {
+				} else  {
 					t.Fail()
 				}
 			} else {
@@ -319,19 +319,21 @@ func Test_dinghyRender_JSON(t *testing.T) {
 	}
 }
 
+
+
 func Test_dinghyRender_YAML(t *testing.T) {
 	type args struct {
 		args []string
 	}
 	tests := []struct {
-		name     string
-		args     args
-		viper    map[string]string
-		want     string
+		name string
+		args args
+		viper map[string]string
+		want string
 		errorMsg error
 	}{
 		//Basic dinghy file
-		{"TestBasicDinghy", args{[]string{"../examples/yaml/dinghyfile_basic"}}, map[string]string{"modules": "../examples/yaml/modules", "type": "yaml"},
+		{ "TestBasicDinghy" , args{[]string{"../examples/yaml/dinghyfile_basic"}}, map[string]string{"modules": "../examples/yaml/modules", "type": "yaml"},
 			`application: helloworldapp
 pipelines:
 - application: helloworldapp
@@ -343,7 +345,7 @@ pipelines:
 			nil,
 		},
 
-		{"TestConditionalsDinghy", args{[]string{"../examples/yaml/dinghyfile_conditionals"}}, map[string]string{"modules": "../examples/yaml/modules", "rawdata": "../examples/RawData.json", "type": "yaml"},
+		{ "TestConditionalsDinghy" , args{[]string{"../examples/yaml/dinghyfile_conditionals"}}, map[string]string{"modules": "../examples/yaml/modules", "rawdata": "../examples/RawData.json",  "type": "yaml"},
 			`application: conditionals
 pipelines:
 - application: conditionals
@@ -357,7 +359,7 @@ pipelines:
 			nil,
 		},
 
-		{"TestGlobalsDinghy", args{[]string{"../examples/yaml/dinghyfile_globals"}}, map[string]string{"modules": "../examples/yaml/modules", "type": "yaml"},
+		{ "TestGlobalsDinghy" , args{[]string{"../examples/yaml/dinghyfile_globals"}}, map[string]string{"modules": "../examples/yaml/modules",  "type": "yaml"},
 			`application: global_vars
 globals:
   waitTime: '42'
@@ -375,7 +377,7 @@ pipelines:
 			nil,
 		},
 
-		{"TestMakeSliceDinghy", args{[]string{"../examples/yaml/dinghyfile_makeSlice"}}, map[string]string{"modules": "../examples/yaml/modules", "type": "yaml"},
+		{ "TestMakeSliceDinghy" , args{[]string{"../examples/yaml/dinghyfile_makeSlice"}}, map[string]string{"modules": "../examples/yaml/modules", "type": "yaml"},
 			`application: makeSlice
 pipelines:
 - application: makeSlice
@@ -397,7 +399,7 @@ pipelines:
 			nil,
 		},
 
-		{"TestRawDataDinghy", args{[]string{"../examples/yaml/dinghyfile_rawdata"}}, map[string]string{"modules": "../examples/yaml/modules", "rawdata": "../examples/RawData.json", "type": "yaml"},
+		{ "TestRawDataDinghy" , args{[]string{"../examples/yaml/dinghyfile_rawdata"}}, map[string]string{"modules": "../examples/yaml/modules", "rawdata": "../examples/RawData.json", "type": "yaml"},
 			`application: rawdata
 pipelines:
 - application: rawdata
@@ -409,7 +411,7 @@ pipelines:
 			nil,
 		},
 
-		{"TestLocalModulesDinghy", args{[]string{"../examples/yaml/dinghyfile_localmodule"}}, map[string]string{"modules": "../examples/yaml/modules", "rawdata": "../examples/RawData.json", "type": "yaml"},
+		{ "TestLocalModulesDinghy" , args{[]string{"../examples/yaml/dinghyfile_localmodule"}}, map[string]string{"modules": "../examples/yaml/modules", "rawdata": "../examples/RawData.json", "type": "yaml"},
 			`application: localmodules
 globals:
   waitTime: '42'
@@ -430,7 +432,7 @@ pipelines:
 `,
 			nil,
 		},
-		{"TestLocalModulesWithParameter", args{[]string{"../examples/yaml/dinghyfile_localmodule_parameter"}}, map[string]string{"modules": "../examples/yaml/modules", "rawdata": "../examples/RawData.json", "local_modules": "../examples/yaml/modules", "type": "yaml"},
+		{ "TestLocalModulesWithParameter" , args{[]string{"../examples/yaml/dinghyfile_localmodule_parameter"}}, map[string]string{"modules": "../examples/yaml/modules", "rawdata": "../examples/RawData.json", "local_modules" : "../examples/yaml/modules", "type": "yaml"},
 			`application: localmodules
 globals:
   waitTime: '42'
@@ -451,15 +453,15 @@ pipelines:
 `,
 			nil,
 		},
-		{"TestValidatePipelines", args{[]string{"../test_dinghyfiles/TestValidatePipelines"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json", "type": "yaml"},
+		{ "TestValidatePipelines" , args{[]string{"../test_dinghyfiles/TestValidatePipelines"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json", "type": "yaml"},
 			``,
 			errors.New("Final Dinghyfile failed validations, please correct them and retry. mj2 refers to itself. Circular references are not supported"),
 		},
-		{"TestValidateAppNotifications", args{[]string{"../test_dinghyfiles/TestValidateAppNotifications"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json", "type": "yaml"},
+		{ "TestValidateAppNotifications" , args{[]string{"../test_dinghyfiles/TestValidateAppNotifications"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json", "type": "yaml"},
 			``,
 			errors.New("Final Dinghyfile failed application notification validations, please correct them and retry. application notifications format is invalid for email"),
 		},
-		{"TestPipelineID", args{[]string{"../examples/yaml/dinghyfile_pipelineID"}}, map[string]string{"modules": "../examples/yaml/modules", "rawdata": "../examples/RawData.json", "type": "yaml"},
+		{ "TestPipelineID" , args{[]string{"../examples/yaml/dinghyfile_pipelineID"}}, map[string]string{"modules": "../examples/yaml/modules", "rawdata": "../examples/RawData.json", "type": "yaml"},
 			`application: pipelineidexample
 pipelines:
 - application: pipelineidexample
@@ -472,7 +474,7 @@ pipelines:
 `,
 			nil,
 		},
-		{"TestDictRange", args{[]string{"../examples/yaml/dinghyfile_dict_range"}}, map[string]string{"modules": "../examples/yaml/modules", "type": "yaml"},
+		{ "TestDictRange" , args{[]string{"../examples/yaml/dinghyfile_dict_range"}}, map[string]string{"modules": "../examples/yaml/modules", "type": "yaml"},
 			`application: dictrangeexample
 pipelines:
 - name: Loop Example
@@ -493,7 +495,7 @@ pipelines:
 `,
 			nil,
 		},
-		{"TestListRange", args{[]string{"../examples/yaml/dinghyfile_list_range"}}, map[string]string{"modules": "../examples/yaml/modules", "rawdata": "../examples/RawData.json", "type": "yaml"},
+		{ "TestListRange" , args{[]string{"../examples/yaml/dinghyfile_list_range"}}, map[string]string{"modules": "../examples/yaml/modules", "rawdata": "../examples/RawData.json", "type": "yaml"},
 			`application: listrangeexample
 pipelines:
 - name: Loop Example
@@ -530,7 +532,7 @@ pipelines:
 			if err != nil {
 				if tt.errorMsg != nil {
 					assert.Equal(t, tt.errorMsg, err)
-				} else {
+				} else  {
 					t.Fail()
 				}
 			} else {
