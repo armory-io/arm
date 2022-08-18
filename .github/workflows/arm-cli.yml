@@ -45,6 +45,8 @@ jobs:
            zip -r arm-${{ steps.get_version.outputs.VERSION }}-linux-amd64.zip ./examples arm-${{ steps.get_version.outputs.VERSION }}-linux-amd64 ./docs README.md
            GOOS=darwin GOARCH=amd64 go build -o arm-${{ steps.get_version.outputs.VERSION }}-darwin-amd64 main.go
            zip -r arm-${{ steps.get_version.outputs.VERSION }}-darwin-amd64.zip ./examples arm-${{ steps.get_version.outputs.VERSION }}-darwin-amd64 ./docs README.md
+           GOOS=darwin GOARCH=arm64 go build -o arm-${{ steps.get_version.outputs.VERSION }}-darwin-arm64 main.go
+           zip -r arm-${{ steps.get_version.outputs.VERSION }}-darwin-arm64.zip ./examples arm-${{ steps.get_version.outputs.VERSION }}-darwin-arm64 ./docs README.md        
 
     - name: Create Release
       id: create_release
@@ -88,4 +90,15 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
         asset_path: arm-${{ steps.get_version.outputs.VERSION }}-darwin-amd64.zip
         asset_name: arm-${{ steps.get_version.outputs.VERSION }}-osx-amd64.zip
+        asset_content_type: application/octet-stream
+
+    - name: Upload macOS arm64 Asset
+      id: upload-release-asset-macos
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+        asset_path: arm-${{ steps.get_version.outputs.VERSION }}-darwin-arm64.zip
+        asset_name: arm-${{ steps.get_version.outputs.VERSION }}-macos-arm64.zip
         asset_content_type: application/octet-stream
