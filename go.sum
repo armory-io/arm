@@ -55,6 +55,8 @@ github.com/armory-io/dinghy v0.1.0-rc.4.0.20210824174139-890f5eb120a3 h1:NS0RwCX
 github.com/armory-io/dinghy v0.1.0-rc.4.0.20210824174139-890f5eb120a3/go.mod h1:hC/0nxOcE3rSpb9iTwo19YNmyKq35V1EuTvLZhgXiWY=
 github.com/armory-io/dinghy v0.1.0-rc.4.0.20210909200842-9f3deb2352c2 h1:8lg7GdG/VGJvsIAwqunakfcFoinfSpiPXWV9qWIQreg=
 github.com/armory-io/dinghy v0.1.0-rc.4.0.20210909200842-9f3deb2352c2/go.mod h1:hC/0nxOcE3rSpb9iTwo19YNmyKq35V1EuTvLZhgXiWY=
+github.com/armory-io/dinghy v0.1.0-rc.4.0.20220125212255-403640bc88ad h1:lJvbWHPbHYMIiZi2SszlGG/Qa6X4eB+Ewg7zAJhZIiw=
+github.com/armory-io/dinghy v0.1.0-rc.4.0.20220125212255-403640bc88ad/go.mod h1:hC/0nxOcE3rSpb9iTwo19YNmyKq35V1EuTvLZhgXiWY=
 github.com/armory-io/monitoring v0.0.7 h1:IVVhiqhavr+yH2IXlMZMyqjhBb9Ms9L6qmKswLh+ODQ=
 github.com/armory-io/monitoring v0.0.7/go.mod h1:EqWc/9ldt7teZxnS2xnAMJsthM7ldI4ArLnjBRGCYSo=
 github.com/armory/dinghy v0.0.0-20210622181016-cf2557851cd4 h1:aQqzZ+/8WTJRLQTsqffCrO2DEMoIKy/qZTcsB39mti4=
