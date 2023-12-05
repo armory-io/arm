@@ -1,6 +1,8 @@
 package cmd
 
-import "github.com/armory/plank/v4"
+import (
+	"github.com/armory/plank/v4"
+)
 
 var pipelineID string
 
@@ -44,6 +46,15 @@ func (p PlankMock) DeletePipeline(plank.Pipeline, string) error {
 func (p PlankMock) UpsertPipeline(pipe plank.Pipeline, str, arg2 string) error {
 	pipelineID = pipe.Name
 	return nil
+}
+
+func (p PlankMock) UpsertPipelineUsingOrca(pipe plank.Pipeline, str, arg2 string) error {
+	pipelineID = pipe.Name
+	return nil
+}
+
+func (p PlankMock) UserRoles(arg0, arg1 string) ([]string, error) {
+	return p.UserRoles(arg0, arg1)
 }
 
 func (p PlankMock) ResyncFiat(string) error {
