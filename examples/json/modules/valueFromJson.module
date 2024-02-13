@@ -1,0 +1,17 @@
+{{ $b := var "branches" | fromJson }}
+{{ $count := 1 }}
+{{ range $b }}
+    {
+      "application": "rangeFromJson",
+      "name": "Made By Armory Pipeline Templates",
+      "stages": [ {
+        "name": "{{( get . "name" )}}",
+        "nested": "{{ (get .invokeJenkinsJobAfterDeploy "dev") }}"
+        }
+      ]
+    }
+   {{ if ne $count (len $b) }}
+       {{ $count = add $count 1 }}
+       ,
+   {{ end }}
+{{ end }}
