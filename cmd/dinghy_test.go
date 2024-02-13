@@ -174,7 +174,7 @@ nil,
 }`,
 nil,
 		},
-		{ "TestLocalModulesWithParameter" , args{[]string{"../examples/json/dinghyfile_localmodule_parameter"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json", "local_modules" : "../"},
+		{ "TestLocalModulesWithParameter" , args{[]string{"../examples/json/dinghyfile_localmodule_parameter"}}, map[string]string{"modules": "../examples/json/modules", "rawdata": "../examples/RawData.json", "local_modules" : "../examples/json/modules"},
 			`{
   "application": "localmodules",
   "globals": {
@@ -432,7 +432,7 @@ pipelines:
 `,
 			nil,
 		},
-		{ "TestLocalModulesWithParameter" , args{[]string{"../examples/yaml/dinghyfile_localmodule_parameter"}}, map[string]string{"modules": "../examples/yaml/modules", "rawdata": "../examples/RawData.json", "local_modules" : "../", "type": "yaml"},
+		{ "TestLocalModulesWithParameter" , args{[]string{"../examples/yaml/dinghyfile_localmodule_parameter"}}, map[string]string{"modules": "../examples/yaml/modules", "rawdata": "../examples/RawData.json", "local_modules" : "../examples/yaml/modules", "type": "yaml"},
 			`application: localmodules
 globals:
   waitTime: '42'
