@@ -7,12 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Adding back old upsertPipeline implementation.
+- To be used in ff logic in dinghy.
 
 ### Fixed
 
 ### Removed
 
-## [4.0.0]
+## [4.1.1]
+
+### Added
+- Using orca when upserting pipeline
+
+### Fixed
+
+### Removed
+
+## [4.1.0] 2022-08-24
+
+### Added
+
+- Add ability for plank Applications to define repository details
+- Added "roles" parameter to Pipeline struct
+
+### Fixed
+
+### Removed
+
+## [4.0.0] 2021-04-26
 
 ### Added
 - Added Trace Logging Option, this changed the API contract to allow for a traceparent id to be provided. If you do not 
@@ -24,7 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
-## [3.4.5] 2021-16-02
+## [3.4.5] 2021-02-16
 
 ### Added
 - Added parameter SpelEvaluator to allow reading this value
@@ -204,7 +226,9 @@ paylods from 4xx and 5xx responses in the `plank.FailedResponse` struct.
   - This allows the caller to unmarshall the response payload into whatever
   struct makes sense for the context.
 
-[Unreleased]: https://github.com/armory/plank/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/armory/plank/compare/v4.1.0...HEAD
+[4.1.0]: https://github.com/armory/plank/compare/v4.0.0...v4.1.0
+[4.0.0]: https://github.com/armory/plank/compare/v3.4.5...v4.0.0
 [3.4.5]: https://github.com/armory/plank/compare/v3.4.4...v3.4.5
 [3.4.4]: https://github.com/armory/plank/compare/v3.4.3...v3.4.4
 [3.4.3]: https://github.com/armory/plank/compare/v3.4.2...v3.4.3

@@ -13,9 +13,11 @@ type PlankClient interface {
 	GetPipelines(string, string) ([]plank.Pipeline, error)
 	DeletePipeline(plank.Pipeline, string) error
 	UpsertPipeline(plank.Pipeline, string, string) error
+	UpsertPipelineUsingOrca(plank.Pipeline, string, string) error
 	ResyncFiat(string) error
 	ArmoryEndpointsEnabled() bool
 	EnableArmoryEndpoints()
 	UseGateEndpoints()
 	UseServiceEndpoints()
+	UserRoles(string, string) ([]string, error)
 }
