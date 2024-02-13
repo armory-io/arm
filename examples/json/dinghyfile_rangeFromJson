@@ -1,0 +1,33 @@
+{
+  "application": "rangeFromJson",
+  "globals": {
+      "branches": [
+      {
+      "name": "main",
+      "kustomizeOverlays": ["dev", "test", "prod"],
+      "manualJudgementBefore": ["test", "prod"],
+      "invokeJenkinsJobAfterDeploy": {
+        "dev": "my/jenkins/dev/job",
+        "prod": "my/jenkins/test/job"
+      },
+      "triggeredByJenkinsJob":  "my/jenkins/job/main"
+      },
+            {
+            "name": "master",
+            "kustomizeOverlays": ["dev", "test", "prod"],
+            "manualJudgementBefore": ["test", "prod"],
+            "invokeJenkinsJobAfterDeploy": {
+              "dev": "my/jenkins/dev/job",
+              "prod": "my/jenkins/test/job"
+            },
+            "triggeredByJenkinsJob":  "my/jenkins/job/master"
+            }
+
+
+      ]
+
+  },
+  "pipelines": [
+{{ module "valueFromJson.module" }}
+  ]
+}
