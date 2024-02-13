@@ -4,9 +4,10 @@ go 1.12
 
 require (
 	github.com/Masterminds/sprig/v3 v3.2.0 // indirect
-	github.com/armory-io/dinghy v0.1.0-rc.4.0.20220125212255-403640bc88ad
-	github.com/armory/dinghy v0.0.0-20210622181016-cf2557851cd4
-	github.com/armory/plank/v4 v4.0.0
+	github.com/armory-io/dinghy v0.1.0-rc.4.0.20231011141048-3380324ef645
+	github.com/armory-io/monitoring v0.0.7 // indirect
+	github.com/armory/dinghy v0.0.0-20230918080952-22ef6f78d576
+	github.com/armory/plank/v4 v4.1.2
 	github.com/aws/aws-sdk-go v1.30.15 // indirect
 	github.com/frankban/quicktest v1.7.2 // indirect
 	github.com/go-test/deep v1.0.2 // indirect
